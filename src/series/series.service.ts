@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Series } from './DTO/series.entity';
-
+import { CreateSeriesDto } from './DTO/create-series.dto';
 @Injectable()
 export class SeriesService {
     constructor (
@@ -15,5 +15,9 @@ export class SeriesService {
     findOne(id: number): Promise<Series> {
         return this.seriesRepository.findOneBy({ id })
     }
+    async create(createSeriesDto: CreateSeriesDto): Promise<Series> {
+        const series = this.seriesRepository.create(createSeriesDto);
+        return this.seriesRepository.save(series);
+      }
 }
 

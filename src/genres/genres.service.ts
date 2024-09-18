@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Genres } from './DTO/genres.entity';
-
+import { CreateGenresDto } from './DTO/create-genres.dto';
 @Injectable()
 export class GenresService {
     constructor (
@@ -15,4 +15,8 @@ export class GenresService {
     findOne(id: number): Promise<Genres> {
         return this.genresRepository.findOneBy({ id })
     }
+    async create(createGenresDto: CreateGenresDto): Promise<Genres> {
+        const Genres = this.genresRepository.create(createGenresDto);
+        return this.genresRepository.save(Genres);
+      }
 }

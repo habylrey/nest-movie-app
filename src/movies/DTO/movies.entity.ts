@@ -8,9 +8,6 @@ export class Movie {
   @Column()
   name: string;
 
-//   @Column()
-//   duration_min: string;
-
   @Column()
   description: string;
 

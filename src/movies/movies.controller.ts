@@ -6,19 +6,25 @@ import { Movie } from './DTO/movies.entity';
 export class MoviesController {
     constructor(private readonly movieService: MovieService) {}
     @Get()
-    findAll() {
+    findAll(
+      @Query('genre') genre_id: number,
+      @Query('director') director_id: number,
+    ) {
+      if (genre_id && director_id) {
+        return this.movieService.findEpisodesByGenreAndDirector(director_id, genre_id)
+
+      } else if (genre_id) {
+        return this.movieService.findEpisodesByGenre(genre_id)
+      } else if ( director_id ) {
+        return this.movieService.findEpisodesByDirector(director_id)
+      }
         return this.movieService.findAll()
     }
     @Get(':id')
-    findOne(@Param('id') id: number): Promise<Movie> {
+    findOne(
+      @Param('id') id: number,
+      ): Promise<Movie> {
       return this.movieService.findOne(id);
     }
-    // @Get('all')
-    // async getAllMovies(
-    //   @Query('genre_id') genre_id?: any,
-    //   @Query('director_id') director_id?: any
-    // ): Promise<Movie[]> {
-    //   return this.movieService.getByData(genre_id, director_id);
-    // }
 
 } 
