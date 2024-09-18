@@ -9,6 +9,7 @@ import { FavoritesModule } from './favorites/favorites.module';
 import { EpisodesModule } from './episodes/episodes.module';
 import { DirectorsModule } from './directors/directors.module';
 import { ConfigModule } from '@nestjs/config';
+import { AdminModule } from './admins/admins.module';
 
 //TODO : remove here those imports somehow
 
@@ -32,6 +33,7 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true, 
       synchronize: true, 
     }),UsersModule, MoviesModule, SeriesModule, GradesModule, 
-    GenresModule, FavoritesModule, EpisodesModule, DirectorsModule]
+    GenresModule, FavoritesModule, EpisodesModule, DirectorsModule
+  , AdminModule]
 })
 export class AppModule {}
