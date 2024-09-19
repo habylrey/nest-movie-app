@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Grades } from './DTO/grades.entity';
-import { CreateGradeDto } from './DTO/grade-create.dto';
+import { CreateGradeDto } from './DTO/create-grades.dto';
+import { serialize } from 'v8';
 
 @Injectable()
 export class GradesService {
@@ -47,32 +48,14 @@ export class GradesService {
 
         return combinedGrades;
     }
-    async getAverageMoviesGrades(): Promise<any[]> {
-        const movieGrades = await this.gradesRepository
-            .createQueryBuilder('grades')
-            .select('grades.movie_id', 'id')
-            .addSelect('movies.name', 'name')
-            .addSelect('AVG(grades.grade)', 'averageGrade')
-            .innerJoin('movies', 'movies', 'movies.id = grades.movie_id')
-            .where('grades.movie_id IS NOT NULL')
-            .groupBy('grades.movie_id')
-            .addGroupBy('movies.name')
-            .getRawMany();
-
-            return movieGrades.sort((a, b) => a - b)
+    findOne(id: number): Promise<Grades> {
+        return this.gradesRepository.findOneBy({ id })
     }
-    async getAverageSeriesGrades(): Promise<any[]> {
-            const seriesGrades = await this.gradesRepository
-            .createQueryBuilder('grades')
-            .select('grades.series_id', 'id')
-            .addSelect('series.name', 'name')
-            .addSelect('AVG(grades.grade)', 'averageGrade')
-            .innerJoin('series', 'series', 'series.id = grades.series_id')
-            .where('grades.series_id IS NOT NULL')
-            .groupBy('grades.series_id')
-            .addGroupBy('series.name')
-            .getRawMany();
+    findByMovie (movie_id : number): Promise<Grades[]> {
+        return this.gradesRepository.findBy({movie_id})
+    } 
+    findBySeries (series_id : number): Promise<Grades[]> {
+        return this.gradesRepository.findBy({series_id})
+    } 
 
-            return seriesGrades.sort((a, b) => a - b)
-    }
 }
