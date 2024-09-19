@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Genres } from './DTO/genres.entity';
+import { Genres } from './genres.entity';
 import { CreateGenresDto } from './DTO/create-genres.dto';
 @Injectable()
 export class GenresService {
@@ -16,7 +16,7 @@ export class GenresService {
         return this.genresRepository.findOneBy({ id })
     }
     async create(createGenresDto: CreateGenresDto): Promise<Genres> {
-        const Genres = this.genresRepository.create(createGenresDto);
-        return this.genresRepository.save(Genres);
+        const genres = this.genresRepository.create(createGenresDto);
+        return this.genresRepository.save(genres);
       }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Directors } from './DTO/directors.entity';
+import { Directors } from './directors.entity';
 import { CreateDirectorsDto } from './DTO/create-directors.dto';
 @Injectable()
 export class DirectorsService {
@@ -16,7 +16,7 @@ export class DirectorsService {
         return this.directorsRepository.findOneBy({ id })
     }
     async create(createDirectorsDto: CreateDirectorsDto): Promise<Directors> {
-        const Directors = this.directorsRepository.create(createDirectorsDto);
-        return this.directorsRepository.save(Directors);
+        const directors = this.directorsRepository.create(createDirectorsDto);
+        return this.directorsRepository.save(directors);
       }
 }

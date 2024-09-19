@@ -1,7 +1,31 @@
+import { Expose, Transform } from 'class-transformer';
+import { IsNotEmpty, IsOptional } from 'class-validator';
+
+const currentTime = () => new Date().toISOString();
 export class CreateFavoritesDto {
-    readonly id: number;
-    readonly user_id: number;
-    readonly series_id: number | null;
-    readonly  movie_id: number | null;
-    readonly  grade_id: number;
-  }
+      @Expose({ name: 'user_id' })
+      @IsNotEmpty()
+      userId: number;
+    
+      @Expose({ name: 'series_id' })
+      @IsOptional()
+      seriesId: number | null;
+    
+      @Expose({ name: 'movie_id' })
+      @IsOptional()
+      movieId: number | null;
+    
+      @Expose({ name: 'grade_id' })
+      @IsNotEmpty()
+      gradeId: number;
+    
+      @Transform(() => currentTime())
+      createdAt: string;
+    
+      @Transform(() => currentTime())
+      updatedAt: string;
+    
+      @Transform(() => null)
+      @IsOptional()
+      deletedAt: string | null;
+    }

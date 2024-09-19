@@ -1,9 +1,25 @@
+import { Expose, Transform } from 'class-transformer';
+import { IsNotEmpty, IsOptional } from 'class-validator';
+
+
 export class CreateSeriesDto {
-  readonly id: number;
-  readonly name: string;
-  readonly description: string;
-  readonly poster_file_id: number;
-  readonly start_year: number;
-  readonly grad_year: number;
-  readonly genre_id: number;
+    @IsNotEmpty()
+    name: string;
+  
+    @IsNotEmpty()
+    description: string;
+
+    @IsNotEmpty()
+    poster_file_id: number;
+    
+    @IsNotEmpty()
+    start_year: number;
+    
+    @IsNotEmpty()
+    grad_year: number;
+
+    @IsNotEmpty()
+    genre_id: number;
+    
+
 }
