@@ -1,61 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Grades } from './DTO/grades.entity';
+import { Grades } from './grades.entity';
 import { CreateGradeDto } from './DTO/create-grades.dto';
-import { serialize } from 'v8';
+import { GradesRepository } from './grades.repository';
 
+
+//TODO add JS Doc here
 @Injectable()
 export class GradesService {
-    constructor(
-        @InjectRepository(Grades)
-        private gradesRepository: Repository<Grades>
-    ) {}
-    async createGrade (createGradeDto: CreateGradeDto): Promise<Grades> {
-        const grade = this.gradesRepository.create(createGradeDto)
-        return this.gradesRepository.save(grade)
+  constructor(
+    @InjectRepository(Grades)
+    private gradesRepository: Repository<Grades>,
+    private averageGradeRepository: GradesRepository,
+  ) {}
+  async createGrade(createGradeDto: CreateGradeDto): Promise<Grades> {
+    const grade = this.gradesRepository.create(createGradeDto);
+    return this.gradesRepository.save(grade);
+  }
+  async getAverageGrades(): Promise<any[]> {
+    return this.averageGradeRepository.getAverageGrades();
+  }
+  async findByMovieOrSeries(id: number, type: 'movie' | 'series'): Promise<Grades[]> {
+    let grades: Grades[] = [];
+
+    if (type === 'movie') {
+      grades = await this.gradesRepository.find({ where: { movieId: id } });
+    } else if (type === 'series') {
+      grades = await this.gradesRepository.find({ where: { seriesId: id } });
+    } else {
+      throw new NotFoundException(`Invalid type: ${type}. Must be 'movie' or 'series'.`);
     }
-    async getAverageGrades(): Promise<any[]> {
-        const movieGrades = await this.gradesRepository
-            .createQueryBuilder('grades')
-            .select('grades.movie_id', 'id')
-            .addSelect('movies.name', 'name')
-            .addSelect('AVG(grades.grade)', 'averageGrade')
-            .innerJoin('movies', 'movies', 'movies.id = grades.movie_id')
-            .where('grades.movie_id IS NOT NULL')
-            .groupBy('grades.movie_id')
-            .addGroupBy('movies.name')
-            .getRawMany();
 
-        const seriesGrades = await this.gradesRepository
-            .createQueryBuilder('grades')
-            .select('grades.series_id', 'id')
-            .addSelect('series.name', 'name')
-            .addSelect('AVG(grades.grade)', 'averageGrade')
-            .innerJoin('series', 'series', 'series.id = grades.series_id')
-            .where('grades.series_id IS NOT NULL')
-            .groupBy('grades.series_id')
-            .addGroupBy('series.name')
-            .getRawMany();
-
-        const combinedGrades = [...movieGrades, ...seriesGrades]
-            .map(item => ({
-                ...item,
-                averageGrade: parseFloat(item.averageGrade),
-                type: item.movie_id ? 'movie' : 'series'
-            }))
-            .sort((a, b) => b.averageGrade - a.averageGrade);
-
-        return combinedGrades;
+    if (!grades.length) {
+      throw new NotFoundException(`${type === 'movie' ? 'Movie' : 'Series'} with id ${id} not found or has no grades.`);
     }
-    findOne(id: number): Promise<Grades> {
-        return this.gradesRepository.findOneBy({ id })
-    }
-    findByMovie (movie_id : number): Promise<Grades[]> {
-        return this.gradesRepository.findBy({movie_id})
-    } 
-    findBySeries (series_id : number): Promise<Grades[]> {
-        return this.gradesRepository.findBy({series_id})
-    } 
 
+    return grades;
+  }
 }
+//TODO add JS Doc here

@@ -1,10 +1,34 @@
+import { Expose, Transform } from 'class-transformer';
+import { IsNotEmpty, IsOptional } from 'class-validator';
+
+const currentTime = () => new Date().toISOString();
+
+
 export class CreateEpisodesDto {
-    readonly id: number;
-    readonly preview_file_id: number;
-    readonly series_id: number;
-    readonly season: number;
-    readonly episode: number;
-    readonly episode_link: string;
-    readonly description: string;
-    readonly name: string;
-}
+      @Expose({ name: 'preview_file_id' })
+      @IsNotEmpty()
+      previewFileId: number;
+    
+      @Expose({ name: 'series_id' })
+      @IsNotEmpty()
+      seriesId: number;
+    
+      @IsNotEmpty()
+      season: number;
+    
+      @IsNotEmpty()
+      episode: number;
+    
+      @Expose({ name: 'episode_link' })
+      @IsNotEmpty()
+      episodeLink: string;
+    
+      @IsNotEmpty()
+      description: string;
+    
+      @IsNotEmpty()
+      name: string;
+    
+    }
+    
+    

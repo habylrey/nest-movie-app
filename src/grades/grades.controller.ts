@@ -1,25 +1,21 @@
 import { GradesService } from './grades.service';
-import { Controller, Get, Param, Post, Body, Delete, Res, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Query } from '@nestjs/common';
 import { CreateGradeDto } from './DTO/create-grades.dto';
-import { Grades } from './DTO/grades.entity';
+import { Grades } from './grades.entity';
 
 @Controller('grade')
 export class GradesController {
-    constructor(private readonly gradesService: GradesService) {}
-
-    @Get()
-    getAverageGrades(
-    ) {
-        return this.gradesService.getAverageGrades();
-    }
-    @Get(':movie')
-    findOne(@Param('movie') movie_id: number,
-    ): Promise<Grades> {
-    return this.gradesService.findOne(movie_id);
-    //TODO 
+  constructor(private gradesService: GradesService) {}
+  @Get()
+  getAverageGrades() {
+    return this.gradesService.getAverageGrades();
   }
-    @Post()
-    crateGrade(@Body() createGradeDto: CreateGradeDto): Promise<Grades> {
-        return this.gradesService.createGrade(createGradeDto)
-    }
+  @Get(':id')
+  findGrades(@Param('id') id: number, @Query('type') type: 'movie' | 'series'): Promise<Grades[]> {
+    return this.gradesService.findByMovieOrSeries(id, type);
+  }
+  @Post()
+  createGrade(@Body() createGradeDto: CreateGradeDto): Promise<Grades> {
+    return this.gradesService.createGrade(createGradeDto);
+  }
 }

@@ -1,7 +1,19 @@
+import { Expose, Transform } from 'class-transformer';
+import { IsNotEmpty, IsOptional } from 'class-validator';
+
 export class CreateUserDto {
-    readonly id: number;
-    readonly name: string;
-    readonly email: string;
-    readonly password: string;
-    readonly  user_pic_id: number;
-  }
+   @Expose({ name: 'user_pic_id' })
+
+   @IsNotEmpty()
+   userPicId: number;
+      
+   @IsNotEmpty()
+   name: string;
+
+   @IsNotEmpty()
+   email: string;
+   
+   @IsNotEmpty()
+   password: string;
+
+} 
