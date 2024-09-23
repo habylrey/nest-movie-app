@@ -1,16 +1,14 @@
 import { IsNumber, IsOptional, IsPositive } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class QueryEpisodesDto {
+export class EpisodeQueryDto {
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @Type(() => Number)
   season?: number;
 
   @IsOptional()
   @IsNumber()
-  @IsPositive()
   @Type(() => Number)
   episode?: number;
 }
