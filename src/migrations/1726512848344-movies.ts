@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
 export class Movies1726512848344 implements MigrationInterface {
 
@@ -19,35 +19,30 @@ export class Movies1726512848344 implements MigrationInterface {
                         isNullable: false,
                     },
                     {
-                        name: 'duration_min',
-                        type: 'int',
-                        isNullable: false,
-                    },
-                    {
-                        name: 'poster_file_id',
-                        type: 'int',
-                        isNullable: true,
-                    },
-                    {
                         name: 'description',
                         type: 'varchar',
                         isNullable: true,
                     },
                     {
-                        name: 'genre_id',
+                        name: 'poster_file_id',
                         type: 'int',
-                        isNullable: true,
+                        isNullable: false,
                     },
                     {
                         name: 'director_id',
                         type: 'int',
-                        isNullable: true,
+                        isNullable: false,
+                    },
+                    {
+                        name: 'genre_id',
+                        type: 'int',
+                        isNullable: false,
                     },
                     {
                         name: 'link',
                         type: 'varchar',
                         length: '255',
-                        isNullable: true,
+                        isNullable: false,
                     },
                     {
                         name: 'created_at',
@@ -68,10 +63,21 @@ export class Movies1726512848344 implements MigrationInterface {
                 ],
             }),
         );
+        await queryRunner.createForeignKey('movies', new TableForeignKey({
+            columnNames: ['director_id'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'directors',
+            onDelete: 'CASCADE',
+        }));
+        await queryRunner.createForeignKey('movies', new TableForeignKey({
+            columnNames: ['genre_id'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'genres',
+            onDelete: 'CASCADE',
+        }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable('movies');
     }
-
 }

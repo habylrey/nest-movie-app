@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Directors } from './DTO/directors.entity';
+import { Directors } from './directors.entity';
 import { DirectorsController } from './directors.controller';
 import { DirectorsService } from './directors.service';
 

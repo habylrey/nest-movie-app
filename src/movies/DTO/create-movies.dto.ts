@@ -1,9 +1,28 @@
-export class CreateMoviesDto{
-    readonly id: number;
-    readonly name: string;
-    readonly description: string;
-    readonly poster_file_id: number;
-    readonly director_id: number;
-    readonly genre_id: number;
-    readonly link: string;
-}
+import { Expose, Transform } from 'class-transformer';
+import { IsNotEmpty, IsOptional } from 'class-validator';
+
+export class CreateMoviesDto {
+      @IsNotEmpty()
+      name: string;
+    
+      @IsNotEmpty()
+      description: string;
+    
+      @Expose({ name: 'poster_file_id' })
+      @IsNotEmpty()
+      posterFileId: number;
+    
+      @Expose({ name: 'director_id' })
+      @IsNotEmpty()
+      directorId: number;
+    
+      @Expose({ name: 'genre_id' })
+      @IsNotEmpty()
+      genreId: number;
+    
+      @IsNotEmpty()
+      link: string;
+    
+   
+    }
+    

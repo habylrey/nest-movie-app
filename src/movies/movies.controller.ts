@@ -1,30 +1,27 @@
-import { Controller, Get, Param, Post, Body, Delete, Res, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Query } from '@nestjs/common';
 import { MovieService } from './movies.service';
-import { Movie } from './DTO/movies.entity';
+import { Movie } from './movies.entity';
+import { CreateMoviesDto } from './DTO/create-movies.dto';
 
 @Controller('movie')
 export class MoviesController {
-    constructor(private readonly movieService: MovieService) {}
-    @Get()
-    findAll(
-      @Query('genre') genre_id: number,
-      @Query('director') director_id: number,
-    ) {
-      if (genre_id && director_id) {
-        return this.movieService.findEpisodesByGenreAndDirector(director_id, genre_id)
+  constructor(private readonly movieService: MovieService) {}
 
-      } else if (genre_id) {
-        return this.movieService.findEpisodesByGenre(genre_id)
-      } else if ( director_id ) {
-        return this.movieService.findEpisodesByDirector(director_id)
-      }
-        return this.movieService.findAll()
-    }
-    @Get(':id')
-    findOne(
-      @Param('id') id: number,
-      ): Promise<Movie> {
-      return this.movieService.findOne(id);
-    }
+  @Get()
+  findAll(
+    @Query('genre') genreId?: number,
+    @Query('director') directorId?: number,
+  ) {
+    return this.movieService.findAll(genreId, directorId);
+  }
 
-} 
+  @Get(':id')
+  findOne(@Param('id') id: number): Promise<Movie> {
+    return this.movieService.findOne(id);
+  }
+
+  @Post('admin')
+  createMovie(@Body() createMoviesDto: CreateMoviesDto) {
+    return this.movieService.create(createMoviesDto);
+  }
+}
