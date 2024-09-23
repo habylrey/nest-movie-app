@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Genres } from './genres.entity';
 import { CreateGenresDto } from './DTO/create-genres.dto';
-import { IdDto } from '../common/DTO/id.dto'; // Убедитесь, что путь к файлу правильный
+import { IdDto } from '../common/DTO/id.dto';
 
 @Injectable()
 export class GenresService {
