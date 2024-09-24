@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Delete, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './users.entity';
 import { CreateUserDto } from './DTO/create-user.dto';
@@ -13,11 +13,10 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<User> {
-    const idDto = new IdDto();
-    idDto.id = id;
-    return this.usersService.findOne(idDto);
+  @Get('find')
+  findOne(@Query('id', ParseIntPipe) id: number): Promise<User> {
+    
+    return this.usersService.  findOne(new IdDto(id));
   }
 
   @Post()
@@ -25,10 +24,9 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    const idDto = new IdDto();
-    idDto.id = id;
-    return this.usersService.remove(idDto);
+  @Delete('remove')
+  remove(@Query('id', ParseIntPipe) id: number): Promise<void> {
+    
+    return this.usersService.remove(new IdDto(id));
   }
 }

@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOptionsWhere } from 'typeorm';
 import { Episodes } from './episodes.entity';
 import { CreateEpisodesDto } from './DTO/create-episodes.dto';
+import { SeriesService } from '../series/series.service';
 
 @Injectable()
 export class EpisodesService {
   constructor(
     @InjectRepository(Episodes)
     private episodesRepository: Repository<Episodes>,
+    private seriesServise: SeriesService,
   ) {}
 
   findAll(): Promise<Episodes[]> {
@@ -19,7 +21,7 @@ export class EpisodesService {
     const where: FindOptionsWhere<Episodes> = { seriesId };
 
     if (seriesId) {
-      const isSeries = this.episodesRepository.findOne({ where: { seriesId } });
+      const isSeries = this.seriesServise.findOne({id: seriesId});
       if (!isSeries) throw new NotFoundException('No episodes found');
     }
 
@@ -35,7 +37,7 @@ export class EpisodesService {
     }
     const episodes = await this.episodesRepository.find({ where });
 
-    if (!episodes || episodes.length === 0) {
+    if (!episodes || !episodes.length) {
       throw new NotFoundException('No episodes found matching the criteria');
     }
 

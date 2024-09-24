@@ -1,8 +1,9 @@
 import { OneToMany, Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { BaseDto } from '../common/DTO/base.dto';
 
 @Entity({ name: 'grades' })
-export class Grades {
+export class Grades extends BaseDto{
   @PrimaryGeneratedColumn()
   id: number;
 
