@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Delete,ParseIntPipe } from '@nestjs/common';
 import { AdminService } from './admins.service';
 import { Admin } from './admins.entity';
 import { CreateAdminDto } from './DTO/create-admin.dto';
@@ -14,8 +14,10 @@ export class AdminController {
   }
 
   @Get(':id')
-  findOne(@Param() params: IdDto): Promise<Admin> {
-    return this.adminService.findOne(params.id);
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<Admin> {
+    const idDto = new IdDto();
+    idDto.id = id;
+    return this.adminService.findOne(idDto);
   }
 
   @Post()
@@ -24,7 +26,9 @@ export class AdminController {
   }
 
   @Delete(':id')
-  remove(@Param() params: IdDto): Promise<void> {
-    return this.adminService.remove(params.id);
+  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    const idDto = new IdDto();
+    idDto.id = id;
+    return this.adminService.remove(idDto);
   }
-}
+} 

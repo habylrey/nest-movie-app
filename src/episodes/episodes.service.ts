@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOptionsWhere } from 'typeorm';
 import { Episodes } from './episodes.entity';
 import { CreateEpisodesDto } from './DTO/create-episodes.dto';
 
@@ -16,19 +16,26 @@ export class EpisodesService {
   }
 
   async findEpisodes(seriesId: number, season?: number, episode?: number): Promise<Episodes[]> {
-    const query: any = { seriesId };
-    
-    if (season !== undefined) {
-      query.season = season;
-    }
-    
-    if (episode !== undefined) {
-      query.episode = episode;
+    const where: FindOptionsWhere<Episodes> = { seriesId };
+
+    if (seriesId) {
+      const isSeries = this.episodesRepository.findOne({ where: { seriesId } });
+      if (!isSeries) throw new NotFoundException('No episodes found');
     }
 
-    const episodes = await this.episodesRepository.find({ where: query });
+    if (season) {
+      where.season = season;
+      const isSeason = await this.episodesRepository.findOne({ where: { season } });
+      if (!isSeason) throw new NotFoundException('No episodes found for this season');
+    }
+    if (episode) {
+      where.episode = episode;
+      const isEpisode = await this.episodesRepository.findOne({ where: { episode } });
+      if (!isEpisode) throw new NotFoundException('No episodes found for this episode number');
+    }
+    const episodes = await this.episodesRepository.find({ where });
 
-    if (episodes.length === 0) {
+    if (!episodes || episodes.length === 0) {
       throw new NotFoundException('No episodes found matching the criteria');
     }
 

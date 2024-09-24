@@ -1,17 +1,18 @@
-import { Expose, Transform } from 'class-transformer';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+   
+import { IsNotEmpty, IsOptional, IsString, IsInt } from 'class-validator';
+import { BaseDto } from '../../common/DTO/base.dto';
 
-const currentTime = () => new Date().toISOString();
-
-export class CreateDirectorsDto {
-  @Expose({ name: 'director_photo_id' })
+export class CreateDirectorsDto extends BaseDto {
   @IsNotEmpty()
+  @IsInt()
   directorPhotoId: number;
 
   @IsNotEmpty()
+  @IsString()
   name: string;
 
   @IsNotEmpty()
+  @IsString()
   description: string;
   
 }

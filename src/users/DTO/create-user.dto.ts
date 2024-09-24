@@ -1,19 +1,22 @@
-import { Expose, Transform } from 'class-transformer';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+   
+import { IsNotEmpty, IsOptional, IsString, IsInt } from 'class-validator';
+import { BaseDto } from '../../common/DTO/base.dto';
 
-export class CreateUserDto {
-   @Expose({ name: 'user_pic_id' })
-
-   @IsNotEmpty()
+export class CreateUserDto extends BaseDto {
+   @IsOptional()
+   @IsInt()
    userPicId: number;
       
    @IsNotEmpty()
+   @IsString()
    name: string;
 
    @IsNotEmpty()
+   @IsString()
    email: string;
    
    @IsNotEmpty()
+   @IsString()
    password: string;
 
 } 

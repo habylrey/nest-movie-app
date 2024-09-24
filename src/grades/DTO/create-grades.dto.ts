@@ -1,21 +1,24 @@
-import { Expose, Transform } from 'class-transformer';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+   
+import { IsNotEmpty, IsOptional, IsInt } from 'class-validator';
+import { BaseDto } from '../../common/DTO/base.dto';
 
 
-export class CreateGradeDto {
-    @Expose({ name: 'series_id' })
+export class CreateGradeDto extends BaseDto{
+  
+    @IsInt()
     @IsOptional()
     seriesId: number | null;
   
-    @Expose({ name: 'movie_id' })
+    @IsInt()
     @IsOptional()
     movieId: number | null;
   
-    @Expose({ name: 'user_id' })
+    @IsInt()
     @IsNotEmpty()
     userId: number;
   
     @IsNotEmpty()
+    @IsInt()
     grade: number;
   
   }

@@ -2,6 +2,7 @@ import { GradesService } from './grades.service';
 import { Controller, Get, Param, Post, Body, Query } from '@nestjs/common';
 import { CreateGradeDto } from './DTO/create-grades.dto';
 import { Grades } from './grades.entity';
+import { IdDto } from '../common/DTO/id.dto'; 
 
 @Controller('grade')
 export class GradesController {
@@ -11,8 +12,8 @@ export class GradesController {
     return this.gradesService.getAverageGrades();
   }
   @Get(':id')
-  findGrades(@Param('id') id: number, @Query('type') type: 'movie' | 'series'): Promise<Grades[]> {
-    return this.gradesService.findByMovieOrSeries(id, type);
+  findGrades(@Param('id') idDto: IdDto, @Query('type') type: 'movie' | 'series'): Promise<Grades[]> {
+    return this.gradesService.findByMovieOrSeries({ id: idDto.id }, type);
   }
   @Post()
   createGrade(@Body() createGradeDto: CreateGradeDto): Promise<Grades> {

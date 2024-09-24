@@ -7,7 +7,7 @@ import { IdDto } from '../common/DTO/id.dto';
 
 @Injectable()
 export class FavoritesService {
-    constructor(
+    constructor( 
         @InjectRepository(Favorites)
         private favoritesRepository: Repository<Favorites>
     ) {}
@@ -16,18 +16,18 @@ export class FavoritesService {
         return this.favoritesRepository.find();
     }
 
-    async findOne(idDto: IdDto): Promise<Favorites> {
-        const favorite = await this.favoritesRepository.findOneBy({ id: idDto.id });
+    async findOne(id: IdDto): Promise<Favorites> {
+        const favorite = await this.favoritesRepository.findOneBy(id);
         if (!favorite) {
-            throw new NotFoundException(`Favorite with ID ${idDto.id} not found`);
+            throw new NotFoundException(`Favorite with ID ${id} not found`);
         }
         return favorite;
     }
 
-    async removeOne(idDto: IdDto): Promise<void> {
-        const result = await this.favoritesRepository.delete(idDto.id);
+    async removeOne(id: IdDto): Promise<void> {
+        const result = await this.favoritesRepository.delete(id);
         if (result.affected === 0) {
-            throw new NotFoundException(`Favorite with ID ${idDto.id} not found`);
+            throw new NotFoundException(`Favorite with ID ${id} not found`);
         }
     }
 

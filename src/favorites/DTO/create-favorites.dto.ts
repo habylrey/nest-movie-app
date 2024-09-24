@@ -1,31 +1,21 @@
-import { Expose, Transform } from 'class-transformer';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+   
+import { IsNotEmpty, IsOptional, IsInt } from 'class-validator';
+import { BaseDto } from '../../common/DTO/base.dto';
 
-const currentTime = () => new Date().toISOString();
-export class CreateFavoritesDto {
-      @Expose({ name: 'user_id' })
+export class CreateFavoritesDto extends BaseDto {
+      @IsInt()
       @IsNotEmpty()
       userId: number;
     
-      @Expose({ name: 'series_id' })
+      @IsInt()
       @IsOptional()
       seriesId: number | null;
     
-      @Expose({ name: 'movie_id' })
       @IsOptional()
+      @IsInt()
       movieId: number | null;
     
-      @Expose({ name: 'grade_id' })
       @IsNotEmpty()
+      @IsInt()
       gradeId: number;
-    
-      @Transform(() => currentTime())
-      createdAt: string;
-    
-      @Transform(() => currentTime())
-      updatedAt: string;
-    
-      @Transform(() => null)
-      @IsOptional()
-      deletedAt: string | null;
     }

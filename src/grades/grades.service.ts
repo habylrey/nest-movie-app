@@ -5,6 +5,8 @@ import { Grades } from './grades.entity';
 import { CreateGradeDto } from './DTO/create-grades.dto';
 import { GradesRepository } from './grades.repository';
 import { IdDto } from '../common/DTO/id.dto'; 
+import { MovieService } from '../movies/movies.service';
+import { SeriesService } from '../series/series.service';
 
 @Injectable()
 export class GradesService {
@@ -12,6 +14,8 @@ export class GradesService {
     @InjectRepository(Grades)
     private gradesRepository: Repository<Grades>,
     private averageGradeRepository: GradesRepository,
+    private movieService: MovieService,
+    private seriesService: SeriesService
   ) {}
 
   async createGrade(createGradeDto: CreateGradeDto): Promise<Grades> {
@@ -27,8 +31,12 @@ export class GradesService {
     let grades: Grades[] = [];
 
     if (type === 'movie') {
+      const movie = this.movieService.findOne(idDto)
+      if (!movie) throw new NotFoundException(`Movie not found`);
       grades = await this.gradesRepository.find({ where: { movieId: idDto.id } });
     } else if (type === 'series') {
+      const series = this.seriesService.findOne(idDto)
+      if (!series) throw new NotFoundException(`Series not found`);
       grades = await this.gradesRepository.find({ where: { seriesId: idDto.id } });
     } 
 
