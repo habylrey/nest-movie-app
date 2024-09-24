@@ -1,19 +1,11 @@
-import { Expose, Transform } from 'class-transformer';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+   
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { BaseDto } from '../../common/DTO/base.dto';
 
-const currentTime = () => new Date().toISOString();
 
-export class CreateGenresDto {
+export class CreateGenresDto extends BaseDto {
     @IsNotEmpty()
+    @IsString()
     name: string;
   
-    @Transform(() => currentTime())
-    createdAt: string;
-  
-    @Transform(() => currentTime())
-    updatedAt: string;
-  
-    @Transform(() => null)
-    @IsOptional()
-    deletedAt: string | null;
   }

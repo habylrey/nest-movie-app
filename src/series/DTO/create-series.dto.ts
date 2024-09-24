@@ -1,24 +1,31 @@
-import { Expose, Transform } from 'class-transformer';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+   
+import { IsNotEmpty, IsOptional, IsString, IsInt } from 'class-validator';
+import { BaseDto } from '../../common/DTO/base.dto';
 
 
-export class CreateSeriesDto {
+export class CreateSeriesDto extends BaseDto {
     @IsNotEmpty()
+    @IsString()
     name: string;
   
     @IsNotEmpty()
+    @IsString()
     description: string;
 
-    @IsNotEmpty()
+    @IsOptional()
+    @IsInt()
     poster_file_id: number;
     
     @IsNotEmpty()
+    @IsInt()
     start_year: number;
     
-    @IsNotEmpty()
+    @IsOptional()
+    @IsInt()
     grad_year: number;
 
     @IsNotEmpty()
+    @IsInt()
     genre_id: number;
     
 

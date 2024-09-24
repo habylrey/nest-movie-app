@@ -16,12 +16,19 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  async findOne(idDto: IdDto): Promise<User> {
-    const user = await this.usersRepository.findOneBy({ id: idDto.id });
+  async findOne(id: IdDto): Promise<User> {
+    const user = await this.usersRepository.findOneBy(id);
     if (!user) {
-      throw new NotFoundException(`User with ID ${idDto.id} not found`);
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
     return user;
+  }
+  async findOneByEmail(email: string): Promise<User> {
+    const user = await this.usersRepository.findOneBy({email: email})
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+    return user
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {

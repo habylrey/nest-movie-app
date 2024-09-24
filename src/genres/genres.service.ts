@@ -16,10 +16,10 @@ export class GenresService {
         return this.genresRepository.find();
     }
 
-    async findOne(idDto: IdDto): Promise<Genres> {
-        const genre = await this.genresRepository.findOneBy({ id: idDto.id });
+    async findOne(id: IdDto): Promise<Genres> {
+        const genre = await this.genresRepository.findOneBy(id);
         if (!genre) {
-            throw new NotFoundException(`Genre with ID ${idDto.id} not found`);
+            throw new NotFoundException(`Genre with ID ${id} not found`);
         }
         return genre;
     }

@@ -1,26 +1,29 @@
-import { Expose, Transform } from 'class-transformer';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+   
+import { IsNotEmpty, IsOptional, IsInt, IsString } from 'class-validator';
+import { BaseDto } from '../../common/DTO/base.dto';
 
-export class CreateMoviesDto {
+export class CreateMoviesDto extends BaseDto {
       @IsNotEmpty()
+      @IsString()
       name: string;
     
       @IsNotEmpty()
       description: string;
     
-      @Expose({ name: 'poster_file_id' })
       @IsNotEmpty()
+      @IsInt()
       posterFileId: number;
     
-      @Expose({ name: 'director_id' })
       @IsNotEmpty()
+      @IsString()
       directorId: number;
     
-      @Expose({ name: 'genre_id' })
       @IsNotEmpty()
+      @IsString()
       genreId: number;
     
       @IsNotEmpty()
+      @IsString()
       link: string;
     
    

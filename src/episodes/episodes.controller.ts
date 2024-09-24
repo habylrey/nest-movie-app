@@ -1,9 +1,9 @@
-import { Controller, Get, Param, Query, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, ParseIntPipe } from '@nestjs/common';
 import { EpisodesService } from './episodes.service';
 import { Episodes } from './episodes.entity';
 import { CreateEpisodesDto } from './DTO/create-episodes.dto';
-import { IdDto } from '../common/DTO/id.dto';
 import { EpisodeQueryDto } from '../common/DTO/query.dto';
+
 @Controller('episodes')
 export class EpisodesController {
   constructor(private readonly episodesService: EpisodesService) {}
@@ -15,10 +15,10 @@ export class EpisodesController {
 
   @Get(':seriesId')
   findEpisodes(
-    @Param() params: IdDto,
+    @Param('seriesId', ParseIntPipe) seriesId: number,
     @Query() query: EpisodeQueryDto
   ): Promise<Episodes[]> {
-    return this.episodesService.findEpisodes(params.id, query.season, query.episode);
+    return this.episodesService.findEpisodes(seriesId, query.season, query.episode);
   }
 
   @Post('admin')

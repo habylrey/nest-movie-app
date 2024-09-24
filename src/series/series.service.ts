@@ -1,23 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Series } from './series.entity';
 import { CreateSeriesDto } from './DTO/create-series.dto';
+import { IdDto } from '../common/DTO/id.dto';
+
 @Injectable()
 export class SeriesService {
-    constructor (
+  constructor(
     @InjectRepository(Series)
-    private seriesRepository: Repository<Series>) {}
+    private seriesRepository: Repository<Series>,
+  ) {}
 
-    findAll(): Promise<Series[]> {
-        return this.seriesRepository.find()
+  findAll(): Promise<Series[]> {
+    return this.seriesRepository.find();
+  }
+
+  async findOne(id: IdDto): Promise<Series> {
+    const series = await this.seriesRepository.findOneBy(id);
+    if (!series) {
+      throw new NotFoundException(`Series with ID ${id} not found`);
     }
-    findOne(id: number): Promise<Series> {
-        return this.seriesRepository.findOneBy({ id })
-    }
-    async create(createSeriesDto: CreateSeriesDto): Promise<Series> {
-        const series = this.seriesRepository.create(createSeriesDto);
-        return this.seriesRepository.save(series);
-      }
+    return series;
+  }
+
+  async create(createSeriesDto: CreateSeriesDto): Promise<Series> {
+    const series = this.seriesRepository.create(createSeriesDto);
+    return this.seriesRepository.save(series);
+  }
 }
-
