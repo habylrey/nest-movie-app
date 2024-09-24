@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Grades } from '../grades/grades.entity';
 import { CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
-// import { Favorites } from 'src/favorites/favorites.entity';
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
@@ -31,7 +30,5 @@ export class User {
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt?: Date; 
 
-  // @OneToMany(() => Favorites, favorite => favorite.user_)
-  // favorites: Favorites[];
 
 }

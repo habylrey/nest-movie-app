@@ -2,6 +2,7 @@ import { Controller, Get, Param, Post, Body, Delete, Res } from '@nestjs/common'
 import { SeriesService } from './series.service';
 import { Series } from './series.entity';
 import { CreateSeriesDto } from './DTO/create-series.dto';
+import { IdDto } from '../common/DTO/id.dto'; 
 
 @Controller('series')
 export class SeriesController {
@@ -11,8 +12,8 @@ export class SeriesController {
         return this.seriesService.findAll()
     }
     @Get(':id')
-    findOne(@Param('id') id: number): Promise<Series> {
-      return this.seriesService.findOne(id);
+    findOne(@Param() params: IdDto): Promise<Series> {
+      return this.seriesService.findOne(params.id);
     }
     @Post('admin')
     createSeries(@Body() createSeriesDto: CreateSeriesDto) {

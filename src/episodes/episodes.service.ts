@@ -16,35 +16,27 @@ export class EpisodesService {
   }
 
   async findEpisodes(seriesId: number, season?: number, episode?: number): Promise<Episodes[]> {
-    const queryBuilder = this.episodesRepository.createQueryBuilder('episodes');
-
-    queryBuilder.where('episodes.seriesId = :seriesId', { seriesId });
-    const seriesCount = await queryBuilder.getCount();
-    if (seriesCount === 0) {
-      throw new NotFoundException(`Series with id ${seriesId} not found`);
+    const query: any = { seriesId };
+    
+    if (season !== undefined) {
+      query.season = season;
+    }
+    
+    if (episode !== undefined) {
+      query.episode = episode;
     }
 
-    if (season) {
-      queryBuilder.andWhere('episodes.season = :season', { season });
-      const seasonCount = await queryBuilder.getCount();
-      if (seasonCount === 0) {
-        throw new NotFoundException(`Season ${season} for series ${seriesId} not found`);
-      }
+    const episodes = await this.episodesRepository.find({ where: query });
+
+    if (episodes.length === 0) {
+      throw new NotFoundException('No episodes found matching the criteria');
     }
 
-    if (episode) {
-      queryBuilder.andWhere('episodes.episode = :episode', { episode });
-      const episodeCount = await queryBuilder.getCount();
-      if (episodeCount === 0) {
-        throw new NotFoundException(`Episode ${episode} for season ${season} and series ${seriesId} not found`);
-      }
-    }
-
-    return queryBuilder.getMany();
+    return episodes;
   }
 
-  async create(createEpisodesDto: CreateEpisodesDto): Promise<Episodes> {
-    const episodes = this.episodesRepository.create(createEpisodesDto);
-    return this.episodesRepository.save(episodes);
+  create(createEpisodesDto: CreateEpisodesDto): Promise<Episodes> {
+    const episode = this.episodesRepository.create(createEpisodesDto);
+    return this.episodesRepository.save(episode);
   }
 }
