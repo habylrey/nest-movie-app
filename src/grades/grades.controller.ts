@@ -11,9 +11,9 @@ export class GradesController {
   getAverageGrades() {
     return this.gradesService.getAverageGrades();
   }
-  @Get(':id')
-  findGrades(@Param('id') idDto: IdDto, @Query('type') type: 'movie' | 'series'): Promise<Grades[]> {
-    return this.gradesService.findByMovieOrSeries({ id: idDto.id }, type);
+  @Get('find')
+  findGrades(@Query('id') id: number, @Query('type') type: 'movie' | 'series'): Promise<Grades[]> {
+    return this.gradesService.findByMovieOrSeries(new IdDto(id), type);
   }
   @Post()
   createGrade(@Body() createGradeDto: CreateGradeDto): Promise<Grades> {

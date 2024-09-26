@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Post, Body, ParseIntPipe } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Body, ParseIntPipe, Query } from '@nestjs/common';
 import { FavoritesService } from './favorites.service';
 import { Favorites } from './favorites.entity';
 import { CreateFavoritesDto } from './DTO/create-favorites.dto';
@@ -13,18 +13,15 @@ export class FavoritesController {
     return this.favoritesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<Favorites> {
-    const idDto = new IdDto();
-    idDto.id = id;
-    return this.favoritesService.findOne(idDto);
+  @Get('find')
+  findOne(@Query('id', ParseIntPipe) id: number): Promise<Favorites> {
+    
+    return this.favoritesService.findOne(new IdDto(id));
   }
 
-  @Delete(':id')
-  removeOne(@Param('id', ParseIntPipe) id: number) {
-    const idDto = new IdDto();
-    idDto.id = id;
-    return this.favoritesService.removeOne(idDto);
+  @Delete('remove')
+  removeOne(@Query('id', ParseIntPipe) id: number) {
+    return this.favoritesService.removeOne(new IdDto(id));
   }
 
   @Post()

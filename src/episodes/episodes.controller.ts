@@ -3,6 +3,7 @@ import { EpisodesService } from './episodes.service';
 import { Episodes } from './episodes.entity';
 import { CreateEpisodesDto } from './DTO/create-episodes.dto';
 import { EpisodeQueryDto } from '../common/DTO/query.dto';
+import { IdDto } from '../common/DTO/id.dto';
 
 @Controller('episodes')
 export class EpisodesController {
@@ -13,12 +14,12 @@ export class EpisodesController {
     return this.episodesService.findAll();
   }
 
-  @Get(':seriesId')
+  @Get('series')
   findEpisodes(
-    @Param('seriesId', ParseIntPipe) seriesId: number,
+    @Query('id', ParseIntPipe) id: number,
     @Query() query: EpisodeQueryDto
   ): Promise<Episodes[]> {
-    return this.episodesService.findEpisodes(seriesId, query.season, query.episode);
+    return this.episodesService.findEpisodes(id, query.season, query.episode);
   }
 
   @Post('admin')

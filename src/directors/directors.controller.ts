@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, ParseIntPipe, Query } from '@nestjs/common';
 import { DirectorsService } from './directors.service';
 import { Directors } from './directors.entity';
 import { CreateDirectorsDto } from './DTO/create-directors.dto';
@@ -13,11 +13,10 @@ export class DirectorsController {
     return this.directorsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<Directors> {
-    const idDto = new IdDto();
-    idDto.id = id;
-    return this.directorsService.findOne(idDto);
+  @Get('find')
+  findOne(@Query('id', ParseIntPipe) id: number): Promise<Directors> {
+    
+    return this.directorsService.  findOne(new IdDto(id));
   }
 
   @Post('admin')

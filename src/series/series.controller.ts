@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, ParseIntPipe } from '@nestjs/common';
 import { SeriesService } from './series.service';
 import { Series } from './series.entity';
 import { CreateSeriesDto } from './DTO/create-series.dto';
@@ -13,11 +13,10 @@ export class SeriesController {
     return this.seriesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<Series> {
-    const idDto = new IdDto();
-    idDto.id = id;
-    return this.seriesService.findOne(idDto);
+  @Get('find')
+  findOne(@Query('id', ParseIntPipe) id: number): Promise<Series> {
+    
+    return this.seriesService.  findOne(new IdDto(id));
   }
 
   @Post('admin')

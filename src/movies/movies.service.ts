@@ -20,14 +20,12 @@ export class MovieService {
     const where: any = {};
 
     if (genreId) {
-      const genre = await this.genreService.findOne({id: genreId})
-      if (!genre) throw new NotFoundException('Genre not found');
+      await this.genreService.findOne({id: genreId})
       where.genreId = genreId;
     }
 
     if (directorId) {
-      const director = await this.directorService.findOne({id: directorId})
-      if (!director) throw new NotFoundException('Director not found');
+      await this.directorService.findOne({id: directorId})
       where.directorId = directorId;
     }
 

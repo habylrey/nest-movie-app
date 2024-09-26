@@ -13,11 +13,10 @@ export class MoviesController {
   findAll(@Query() query: MovieQueryDto) {
     return this.movieService.findAll(query.genreId, query.directorId);
   }
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<Movie> {
-    const idDto = new IdDto();
-    idDto.id = id;
-    return this.movieService.findOne(idDto);
+  @Get('find')
+  findOne(@Query('id', ParseIntPipe) id: number): Promise<Movie> {
+    
+    return this.movieService.  findOne(new IdDto(id));
   }
 
   @Post('admin')

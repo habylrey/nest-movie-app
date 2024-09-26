@@ -1,7 +1,7 @@
 import { CreateDateColumn, UpdateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 export abstract class BaseDto {
-    @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn()
     id: number;
     
   @CreateDateColumn({ name: 'created_at' })
