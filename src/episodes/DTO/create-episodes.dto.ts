@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, IsInt } from 'class-validator';
 import { BaseDto } from '../../common/DTO/base.dto';
 
-export class CreateEpisodesDto extends BaseDto {
+export class CreateEpisodesDto {
   @ApiProperty({ description: 'ID файла предпросмотра', example: 1 })
   @IsNotEmpty()
   @IsInt()

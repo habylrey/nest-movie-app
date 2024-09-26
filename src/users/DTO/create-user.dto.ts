@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, IsInt } from 'class-validator';
 import { BaseDto } from '../../common/DTO/base.dto';
 
-export class CreateUserDto extends BaseDto {
+export class CreateUserDto {
   @ApiProperty({ description: 'ID фотографии пользователя', example: 1, required: false })
   @IsOptional()
   @IsInt()

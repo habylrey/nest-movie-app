@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, IsInt } from 'class-validator';
 import { BaseDto } from '../../common/DTO/base.dto';
 
-export class CreateSeriesDto extends BaseDto {
+export class CreateSeriesDto {
   @ApiProperty({ description: 'Название сериала', example: 'Игра престолов' })
   @IsNotEmpty()
   @IsString()
@@ -16,20 +16,20 @@ export class CreateSeriesDto extends BaseDto {
   @ApiProperty({ description: 'ID файла постера', example: 1, required: false })
   @IsOptional()
   @IsInt()
-  poster_file_id: number;
+  posterFileId: number;
 
   @ApiProperty({ description: 'Год начала', example: 2011 })
   @IsNotEmpty()
   @IsInt()
-  start_year: number;
+  startYear: number;
 
   @ApiProperty({ description: 'Год окончания', example: 2019, required: false })
   @IsOptional()
   @IsInt()
-  grad_year: number;
+  gradYear: number;
 
   @ApiProperty({ description: 'ID жанра', example: 2 })
   @IsNotEmpty()
   @IsInt()
-  genre_id: number;
+  genreId: number;
 }

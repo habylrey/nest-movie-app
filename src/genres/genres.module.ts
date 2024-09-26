@@ -4,12 +4,13 @@ import { Genres } from './genres.entity';
 import { GenresController } from './genres.controller';
 import { GenresService } from './genres.service';
 import { AdminModule } from '../admins/admins.module';
-import { AuthHelper } from '../auth/auth.helper';
+import { AuthGuard } from '../auth/auth.helper';
+import { UsersModule } from '../users/users.module';
 
 @Module( {
-    imports: [TypeOrmModule.forFeature([Genres]), AdminModule],
+    imports: [TypeOrmModule.forFeature([Genres]), AdminModule, UsersModule],
     controllers: [GenresController],
-    providers: [GenresService, AuthHelper],
+    providers: [GenresService, AuthGuard],
     exports: [GenresService]
 } )
 export class GenresModule {}

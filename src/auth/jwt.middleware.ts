@@ -1,21 +1,23 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
+import { Request } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 @Injectable()
-export class AuthMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
-    const token = req.cookies['jwt'];
+export class GlobalAuthGuard implements CanActivate {
+  canActivate(context: ExecutionContext): boolean {
+    const request: Request = context.switchToHttp().getRequest();
+    const token = request.cookies['jwt'];
 
     if (!token) {
-      return next();
+      return false; 
     }
+
     try {
       const decoded = jwt.verify(token, process.env.SECRET);
-      req['user'] = decoded;
+      request['user'] = decoded; 
+      return true; 
     } catch (err) {
-      return next();
+      throw new ForbiddenException('Invalid token'); 
     }
-    next();
   }
 }

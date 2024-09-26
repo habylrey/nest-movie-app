@@ -2,7 +2,7 @@ import { ApiProperty, ApiResponse, ApiResponseProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsInt, IsString } from 'class-validator';
 import { BaseDto } from '../../common/DTO/base.dto';
 
-export class CreateDirectorsDto extends BaseDto {
+export class CreateDirectorsDto {
   @ApiProperty({
     description: 'Идентификатор фотографии директора',
     example: 1,

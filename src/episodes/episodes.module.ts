@@ -5,10 +5,11 @@ import { EpisodesController } from './episodes.controller';
 import { EpisodesService } from './episodes.service';
 import { SeriesModule } from '../series/series.module';
 import { AdminModule } from '../admins/admins.module';
-import { AuthHelper } from '../auth/auth.helper';
+import { AuthGuard } from '../auth/auth.helper';
+import { UsersModule } from '../users/users.module';
 @Module( {
-    imports: [TypeOrmModule.forFeature([Episodes]), SeriesModule, AdminModule],
+    imports: [TypeOrmModule.forFeature([Episodes]), SeriesModule, AdminModule, UsersModule],
     controllers: [EpisodesController],
-    providers: [EpisodesService, AuthHelper]
+    providers: [EpisodesService, AuthGuard]
 } )
 export class EpisodesModule {}

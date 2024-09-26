@@ -5,7 +5,7 @@ import { Grades } from './grades.entity';
 import { IdDto } from '../common/DTO/id.dto'; 
 import { AdminService } from '../admins/admins.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { AuthHelper } from '../auth/auth.helper';
+import { AuthGuard } from '../auth/auth.helper';
 import { Request } from 'express';
 @Controller('grade')
 export class GradesController {

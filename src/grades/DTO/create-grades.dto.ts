@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsInt } from 'class-validator';
 import { BaseDto } from '../../common/DTO/base.dto';
 
-export class CreateGradeDto extends BaseDto {
+export class CreateGradeDto {
   @ApiProperty({ description: 'ID сериала', example: 1, required: false })
   @IsInt()
   @IsOptional()

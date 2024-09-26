@@ -7,11 +7,12 @@ import { GradesRepository } from './grades.repository';
 import { MoviesModule } from '../movies/movies.module';
 import { SeriesModule } from '../series/series.module'; 
 import { AdminModule } from '../admins/admins.module';
-import { AuthHelper } from '../auth/auth.helper';
+import { AuthGuard } from '../auth/auth.helper';
+import { UsersModule } from '../users/users.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Grades]), MoviesModule, SeriesModule, AdminModule], 
+  imports: [TypeOrmModule.forFeature([Grades]), MoviesModule, SeriesModule, AdminModule, UsersModule], 
   controllers: [GradesController],
-  providers: [GradesService, GradesRepository, AuthHelper],
+  providers: [GradesService, GradesRepository, AuthGuard],
   exports: [GradesService, GradesRepository]
 })
 export class GradesModule {}

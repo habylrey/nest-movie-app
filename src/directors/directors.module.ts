@@ -4,12 +4,13 @@ import { Directors } from './directors.entity';
 import { DirectorsController } from './directors.controller';
 import { DirectorsService } from './directors.service';
 import { AdminModule } from '../admins/admins.module';
-import { AuthHelper } from '../auth/auth.helper';
+import { AuthGuard } from '../auth/auth.helper';
+import { UsersModule } from '../users/users.module';
 
 @Module( {
-    imports: [TypeOrmModule.forFeature([Directors]), AdminModule],
+    imports: [TypeOrmModule.forFeature([Directors]), AdminModule, UsersModule],
     controllers: [DirectorsController],
-    providers: [DirectorsService, AuthHelper],
+    providers: [DirectorsService, AuthGuard],
     exports: [DirectorsService]
 } )
 export class DirectorsModule {}

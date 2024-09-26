@@ -14,9 +14,10 @@ export class AuthService {
     const user = await this.usersService.findOneByEmail(email);
     if (user && user.password === password) { 
       const { password, ...result } = user;
+      console.log(user, email, password)
       return result;
     }
-    return null;
+    throw new UnauthorizedException(`Invalid credentials ${user}`);
   }
 
   async login(user: User) {

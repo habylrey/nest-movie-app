@@ -5,23 +5,24 @@ import { CreateUserDto } from './DTO/create-user.dto';
 import { IdDto } from '../common/DTO/id.dto';
 import { AdminService } from '../admins/admins.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { AuthHelper } from '../auth/auth.helper';
+import { AuthGuard } from '../auth/auth.helper';
 import { Request } from 'express';
-
+import { AuthRequest } from '../interfaces/request.interface';
 @Controller('user')
 @UseGuards(JwtAuthGuard)
 export class UsersController {
-  constructor(private authHelper: AuthHelper, private usersService: UsersService, private adminsService: AdminService) {}
+  constructor(private AuthGuard: AuthGuard, private usersService: UsersService, private adminsService: AdminService) {}
   @Get('admin')
-  async findAll(@Req() req: Request) {
-    await this.authHelper.validateUser(req, this.adminsService);
+  @UseGuards(JwtAuthGuard) 
+  @UseGuards(AuthGuard)
+  async findAll(@Req() req: AuthRequest) {
     return this.usersService.findAll();
   }
 
   @Get()
-  findOne(@Req() req: Request): Promise<User> {
-    const user = req['user']; 
-    return this.usersService.findOne(new IdDto(user.sub));
+  findOne(@Req() req: AuthRequest): Promise<User> {
+    const userId = req.user.id
+    return this.usersService.findOne({ id: userId });
   }
 
   @Post()

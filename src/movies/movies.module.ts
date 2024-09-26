@@ -6,11 +6,12 @@ import { MovieService } from './movies.service';
 import { GenresModule } from '../genres/genres.module';
 import { DirectorsModule } from '../directors/directors.module';
 import { AdminModule } from '../admins/admins.module';
-import { AuthHelper } from '../auth/auth.helper';
+import { AuthGuard } from '../auth/auth.helper';
+import { UsersModule } from '../users/users.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Movie]),AdminModule, GenresModule, DirectorsModule],
+  imports: [TypeOrmModule.forFeature([Movie]),AdminModule, GenresModule, DirectorsModule, UsersModule],
   controllers: [MoviesController],
-  providers: [MovieService, AuthHelper],
+  providers: [MovieService, AuthGuard],
   exports: [MovieService], 
 })
 export class MoviesModule {}
