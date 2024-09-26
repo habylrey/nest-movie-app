@@ -1,12 +1,12 @@
-import { Controller, Get, UseGuards, Post, Body, Delete, UnauthorizedException, Req} from '@nestjs/common';
+import { Controller, Get, UseGuards, Post, Body, Delete, Req} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './users.entity';
 import { CreateUserDto } from './DTO/create-user.dto';
-import { IdDto } from '../common/DTO/id.dto';
 import { AdminService } from '../admins/admins.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AuthGuard } from '../auth/auth.helper';
-import { Request } from 'express';
+import { AuthUser } from '../auth/auth.user';
+import { Person } from '../interfaces/request.interface';
 import { AuthRequest } from '../interfaces/request.interface';
 @Controller('user')
 @UseGuards(JwtAuthGuard)
@@ -31,8 +31,7 @@ export class UsersController {
   }
 
   @Delete('remove')
-  remove(@Req() req: Request): Promise<void> {
-    const user = req['user']; 
-    return this.usersService.remove(new IdDto(user.sub));
+  remove(@AuthUser() person: Person): Promise<void> {
+    return this.usersService.remove(person);
   }
 }

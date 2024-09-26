@@ -1,12 +1,10 @@
-import { Controller, Delete, Get, Req, Post, Body, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Delete, Get, Req, Post, Body, Query } from '@nestjs/common';
 import { FavoritesService } from './favorites.service';
 import { Favorites } from './favorites.entity';
 import { CreateFavoritesDto } from './DTO/create-favorites.dto';
 import { IdDto } from '../common/DTO/id.dto'; 
-import { AdminService } from '../admins/admins.service';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { AuthGuard } from '../auth/auth.helper';
-import { Request } from 'express';
+import { AuthUser } from '../auth/auth.user';
+import { Person } from '../interfaces/request.interface';
 @Controller('favorites')
 export class FavoritesController {
   constructor(private favoritesService: FavoritesService) {}
@@ -17,9 +15,8 @@ export class FavoritesController {
   }
 
   @Get('find')
-  findOne(@Req() req: Request): Promise<Favorites> {
-    const user = req['user']; 
-    return this.favoritesService.findOne(new IdDto(user.sub));
+  findOne(@AuthUser() person: Person): Promise<Favorites> {
+    return this.favoritesService.findOne(person);
   }
 
   @Delete('remove')

@@ -21,7 +21,7 @@ export class AdminService {
     if (!admin) throw new NotFoundException('Not found')
     return admin
   }
-  async findByEmail(email: any): Promise<Admin> {
+  async findByEmail(email: string): Promise<Admin> {
     const admin = await this.adminRepository.findOneBy({email});
     if (!admin) throw new ForbiddenException(`Insufficient rights to perform this action`);
     return admin
