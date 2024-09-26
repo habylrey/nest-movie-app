@@ -12,8 +12,8 @@ export class GenresController {
         return this.genresService.findAll()
     }
     @Get('find')
-    findOne(@Query() query: IdDto): Promise<Genres> {
-      return this.genresService.findOne(query);
+    findOne(@Query('id', ParseIntPipe) id: number): Promise<Genres> {
+      return this.genresService.findOne(new IdDto(id));
     }
     @Post('genres')
     createGenres(@Body() createGenresDto: CreateGenresDto) {

@@ -5,13 +5,11 @@ import { MoviesController } from './movies.controller';
 import { MovieService } from './movies.service';
 import { GenresModule } from '../genres/genres.module';
 import { DirectorsModule } from '../directors/directors.module';
-import { AdminModule } from '../admins/admins.module';
-import { AuthGuard } from '../auth/auth.helper';
-import { UsersModule } from '../users/users.module';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([Movie]),AdminModule, GenresModule, DirectorsModule, UsersModule],
+  imports: [TypeOrmModule.forFeature([Movie]), GenresModule, DirectorsModule],
   controllers: [MoviesController],
-  providers: [MovieService, AuthGuard],
+  providers: [MovieService],
   exports: [MovieService], 
 })
 export class MoviesModule {}

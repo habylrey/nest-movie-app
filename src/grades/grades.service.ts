@@ -31,12 +31,17 @@ export class GradesService {
     let grades: Grades[] = [];
 
     if (type === 'movie') {
-        await this.movieService.findOne(idDto);
+        const movie = await this.movieService.findOne(idDto);
+        if (!movie) throw new NotFoundException(`Movie not found`);
+
         grades = await this.gradesRepository.find({ where: { movieId: idDto.id } });
     } else if (type === 'series') {
-        await this.seriesService.findOne(idDto);
+        const series = await this.seriesService.findOne(idDto);
+        if (!series) throw new NotFoundException(`Series not found`);
+
         grades = await this.gradesRepository.find({ where: { seriesId: idDto.id } });
     } 
+
     if (!grades.length) {
         throw new NotFoundException(`${type === 'movie' ? 'Movie' : 'Series'} with id ${idDto.id} not found or has no grades.`);
     }

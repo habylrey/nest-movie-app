@@ -14,8 +14,9 @@ export class SeriesController {
   }
 
   @Get('find')
-  findOne(@Query() query: IdDto): Promise<Series> {
-    return this.seriesService.findOne(query);
+  findOne(@Query('id', ParseIntPipe) id: number): Promise<Series> {
+    
+    return this.seriesService.  findOne(new IdDto(id));
   }
 
   @Post('admin')

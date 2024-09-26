@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Admin } from './admins.entity';
@@ -19,11 +19,6 @@ export class AdminService {
   async findOne(id: IdDto): Promise<Admin> {
     const admin = await this.adminRepository.findOneBy(id);
     if (!admin) throw new NotFoundException('Not found')
-    return admin
-  }
-  async findByEmail(email: string): Promise<Admin> {
-    const admin = await this.adminRepository.findOneBy({email});
-    if (!admin) throw new ForbiddenException(`Insufficient rights to perform this action`);
     return admin
   }
   async create(createAdminDto: CreateAdminDto): Promise<Admin> {
