@@ -7,19 +7,19 @@ export class Favorites {
 
   @ManyToOne('Movie', 'favorites', { nullable: true })
   @JoinColumn({ name: 'movie_id' })
-  movie: any | null;
+  movie: number | null;
 
   @ManyToOne('User', 'favorites')
   @JoinColumn({ name: 'user_id' })
-  user: any;
+  user: number;
 
   @ManyToOne('Series', 'favorites', { nullable: true })
   @JoinColumn({ name: 'series_id' })
-  series: any | null;
+  series: number | null;
 
   @ManyToOne('Grades', 'favorites')
   @JoinColumn({ name: 'grade_id' })
-  grade: any;
+  grade: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

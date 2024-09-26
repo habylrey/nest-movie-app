@@ -6,10 +6,11 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
-
-
+import { AuthMiddleware } from './jwt.middleware';
+import { MiddlewareConsumer } from '@nestjs/common';
 @Module({
   imports: [
+    ConfigModule.forRoot(), 
     UsersModule,
     PassportModule,
     JwtModule.register({
@@ -17,8 +18,11 @@ import { ConfigModule } from '@nestjs/config';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, AuthMiddleware],
   controllers: [AuthController],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule {  
+  configure(consumer: MiddlewareConsumer) {
+  consumer.apply(AuthMiddleware).forRoutes('*');
+}}

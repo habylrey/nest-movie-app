@@ -1,22 +1,27 @@
-import { Controller, Get, Query, Post, Body, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, UseGuards, Post, Body, Delete, UnauthorizedException, Req} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './users.entity';
 import { CreateUserDto } from './DTO/create-user.dto';
 import { IdDto } from '../common/DTO/id.dto';
+import { AdminService } from '../admins/admins.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { AuthHelper } from '../auth/auth.helper';
+import { Request } from 'express';
 
 @Controller('user')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
-  constructor(private usersService: UsersService) {}
-
-  @Get()
-  async findAll() {
+  constructor(private authHelper: AuthHelper, private usersService: UsersService, private adminsService: AdminService) {}
+  @Get('admin')
+  async findAll(@Req() req: Request) {
+    await this.authHelper.validateUser(req, this.adminsService);
     return this.usersService.findAll();
   }
 
-  @Get('find')
-  findOne(@Query('id', ParseIntPipe) id: number): Promise<User> {
-    
-    return this.usersService.  findOne(new IdDto(id));
+  @Get()
+  findOne(@Req() req: Request): Promise<User> {
+    const user = req['user']; 
+    return this.usersService.findOne(new IdDto(user.sub));
   }
 
   @Post()
@@ -25,8 +30,8 @@ export class UsersController {
   }
 
   @Delete('remove')
-  remove(@Query('id', ParseIntPipe) id: number): Promise<void> {
-    
-    return this.usersService.remove(new IdDto(id));
+  remove(@Req() req: Request): Promise<void> {
+    const user = req['user']; 
+    return this.usersService.remove(new IdDto(user.sub));
   }
 }
