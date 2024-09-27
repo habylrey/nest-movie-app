@@ -17,7 +17,7 @@ export class GlobalAuthGuard implements CanActivate {
       request['user'] = decoded; 
       return true; 
     } catch (err) {
-      throw new ForbiddenException('Invalid token'); 
+      return false
     }
   }
 }

@@ -5,8 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users.entity';
 import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
+import { EmailModule } from '../nodemailer/email.module';
 @Module({
-    imports:[TypeOrmModule.forFeature([User]), AdminModule],
+    imports:[TypeOrmModule.forFeature([User]), AdminModule, EmailModule],
     controllers: [UsersController],
     providers: [UsersService, AuthGuard],
     exports: [UsersService]

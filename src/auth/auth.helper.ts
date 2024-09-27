@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
       request.user = user; 
       return true;
     } catch (err) {
-      throw new UnauthorizedException('Invalid or expired JWT token');
+      return false;
     }
   }
 }

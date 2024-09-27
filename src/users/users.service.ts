@@ -28,7 +28,17 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`User not found`);
     }
+    
     return user
+  }
+  async updatePassword(email: string, newPassword: string): Promise<User> {
+    const user = await this.usersRepository.findOneBy({ email });
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
+    user.password = newPassword;
+    await this.usersRepository.save(user);
+    return user;
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {

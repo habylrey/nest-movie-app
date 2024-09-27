@@ -11,6 +11,8 @@ import { DirectorsModule } from './directors/directors.module';
 import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admins/admins.module';
 import { AuthModule } from './auth/auth.module';
+import { BullModule } from '@nestjs/bull';
+import { EmailModule } from './nodemailer/email.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -29,8 +31,15 @@ import { AuthModule } from './auth/auth.module';
       synchronize: false, 
       autoLoadEntities: true
     }
-    ),UsersModule, MoviesModule, SeriesModule, GradesModule, 
-    GenresModule, FavoritesModule, EpisodesModule, DirectorsModule, AdminModule, AuthModule
+    ),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),UsersModule, MoviesModule, SeriesModule, GradesModule, 
+    GenresModule, FavoritesModule, EpisodesModule, DirectorsModule, 
+    AdminModule, AuthModule, EmailModule
   ]
 })
 export class AppModule {}

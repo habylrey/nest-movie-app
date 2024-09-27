@@ -8,10 +8,11 @@ import { AuthGuard } from '../auth/auth.helper';
 import { AuthUser } from '../auth/auth.user';
 import { Person } from '../interfaces/request.interface';
 import { AuthRequest } from '../interfaces/request.interface';
+import { EmailService } from '../nodemailer/email.service';
 @Controller('user')
-@UseGuards(JwtAuthGuard)
 export class UsersController {
-  constructor(private AuthGuard: AuthGuard, private usersService: UsersService, private adminsService: AdminService) {}
+  constructor(private AuthGuard: AuthGuard, private usersService: UsersService,
+    private adminsService: AdminService, private emailService: EmailService) {}
   @Get('admin')
   @UseGuards(JwtAuthGuard) 
   @UseGuards(AuthGuard)
@@ -20,9 +21,8 @@ export class UsersController {
   }
 
   @Get()
-  findOne(@Req() req: AuthRequest): Promise<User> {
-    const userId = req.user.id
-    return this.usersService.findOne({ id: userId });
+  findOne(@AuthUser() person: Person): Promise<User> {
+    return this.usersService.findOne(person);
   }
 
   @Post()
