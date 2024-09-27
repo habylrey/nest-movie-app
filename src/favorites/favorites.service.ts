@@ -17,7 +17,7 @@ export class FavoritesService {
     }
 
     async findOne(id: IdDto): Promise<Favorites> {
-        const favorite = await this.favoritesRepository.findOneBy(id);
+        const favorite = await this.favoritesRepository.findOneBy(id); 
         if (!favorite) {
             throw new NotFoundException(`Favorite with ID ${id} not found`);
         }
