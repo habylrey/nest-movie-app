@@ -49,4 +49,11 @@ export class MovieService {
     const movie = this.movieRepository.create(createMoviesDto);
     return this.movieRepository.save(movie);
   }
+  async searchByName(name: any): Promise<Movie> {
+    const movie = await this.movieRepository.findOneBy(name);
+    if (!movie) {
+      throw new NotFoundException(`Movie with ID ${name} not found`);
+    }
+    return movie;
+  }
 }
