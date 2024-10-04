@@ -40,6 +40,7 @@ import { EmailModule } from './nodemailer/email.module';
     }),UsersModule, MoviesModule, SeriesModule, GradesModule, 
     GenresModule, FavoritesModule, EpisodesModule, DirectorsModule, 
     AdminModule, AuthModule, EmailModule
-  ]
+  ],
+  providers: []
 })
 export class AppModule {}

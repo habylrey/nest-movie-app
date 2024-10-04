@@ -9,9 +9,10 @@ import { AuthUser } from '../auth/auth.user';
 import { Person } from '../interfaces/request.interface';
 import { AuthRequest } from '../interfaces/request.interface';
 import { EmailService } from '../nodemailer/email.service';
+import { JwtStrategy } from '../auth/jwt.strategy';
 @Controller('user')
 export class UsersController {
-  constructor(private AuthGuard: AuthGuard, private usersService: UsersService,
+  constructor(private authGuard: AuthGuard, private usersService: UsersService,
     private adminsService: AdminService, private emailService: EmailService) {}
   @Get('admin')
   @UseGuards(JwtAuthGuard) 
@@ -21,7 +22,10 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   findOne(@AuthUser() person: Person): Promise<User> {
+    console.log(JwtStrategy)
+    console.log(person)
     return this.usersService.findOne(person);
   }
 
