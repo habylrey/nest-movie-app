@@ -6,9 +6,10 @@ import { GenresService } from './genres.service';
 import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
 import { UsersModule } from '../users/users.module';
+import { WebsocketModule } from '../websocket/editing.module';
 
 @Module( {
-    imports: [TypeOrmModule.forFeature([Genres]), AdminModule, UsersModule],
+    imports: [TypeOrmModule.forFeature([Genres]), AdminModule, UsersModule, WebsocketModule],
     controllers: [GenresController],
     providers: [GenresService, AuthGuard],
     exports: [GenresService]

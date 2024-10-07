@@ -9,8 +9,9 @@ import { SeriesModule } from '../series/series.module';
 import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
 import { UsersModule } from '../users/users.module';
+import { WebsocketModule } from '../websocket/editing.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Grades]), MoviesModule, SeriesModule, AdminModule, UsersModule], 
+  imports: [TypeOrmModule.forFeature([Grades]), MoviesModule, SeriesModule, AdminModule, UsersModule, WebsocketModule], 
   controllers: [GradesController],
   providers: [GradesService, GradesRepository, AuthGuard],
   exports: [GradesService, GradesRepository]

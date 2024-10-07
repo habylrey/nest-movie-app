@@ -2,7 +2,7 @@ import { GradesService } from './grades.service';
 import { Controller, Get, Req, Post, Body, Query } from '@nestjs/common';
 import { CreateGradeDto } from './DTO/create-grades.dto';
 import { Grades } from './grades.entity';
-import { Person } from '../interfaces/request.interface';
+import { Person } from '../common/interfaces/request.interface';
 import { AuthUser } from '../auth/auth.user';
 @Controller('grade')
 export class GradesController {

@@ -6,9 +6,10 @@ import { DirectorsService } from './directors.service';
 import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
 import { UsersModule } from '../users/users.module';
+import { WebsocketModule } from '../websocket/editing.module';
 
 @Module( {
-    imports: [TypeOrmModule.forFeature([Directors]), AdminModule, UsersModule],
+    imports: [TypeOrmModule.forFeature([Directors]), AdminModule, UsersModule, WebsocketModule],
     controllers: [DirectorsController],
     providers: [DirectorsService, AuthGuard],
     exports: [DirectorsService]

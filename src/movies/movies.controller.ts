@@ -7,7 +7,7 @@ import { MovieQueryDto } from '../common/DTO/query.dto';
 import { AdminService } from '../admins/admins.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AuthGuard } from '../auth/auth.helper';
-import { AuthRequest } from '../interfaces/request.interface';
+import { AuthRequest } from '../common/interfaces/request.interface';
 import { Request } from 'express';
 @Controller('movie')
 export class MoviesController {
