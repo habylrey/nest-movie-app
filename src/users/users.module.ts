@@ -6,10 +6,13 @@ import { User } from './users.entity';
 import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
 import { EmailModule } from '../nodemailer/email.module';
+import { WebsocketModule } from '../websocket/editing.module';
+import { EditingService } from '../websocket/editing.service';
+import { EditingGateway } from '../websocket/editing.gateway';
 @Module({
-    imports:[TypeOrmModule.forFeature([User]), AdminModule, EmailModule],
+    imports:[TypeOrmModule.forFeature([User]), AdminModule, EmailModule, WebsocketModule],
     controllers: [UsersController],
-    providers: [UsersService, AuthGuard],
+    providers: [UsersService, AuthGuard, EditingService, EditingGateway],
     exports: [UsersService]
   })
   export class UsersModule {}

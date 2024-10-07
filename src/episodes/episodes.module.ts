@@ -7,8 +7,9 @@ import { SeriesModule } from '../series/series.module';
 import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
 import { UsersModule } from '../users/users.module';
+import { WebsocketModule } from '../websocket/editing.module';
 @Module( {
-    imports: [TypeOrmModule.forFeature([Episodes]), SeriesModule, AdminModule, UsersModule],
+    imports: [TypeOrmModule.forFeature([Episodes]), SeriesModule, AdminModule, UsersModule, WebsocketModule],
     controllers: [EpisodesController],
     providers: [EpisodesService, AuthGuard]
 } )

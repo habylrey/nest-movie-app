@@ -8,8 +8,9 @@ import { DirectorsModule } from '../directors/directors.module';
 import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
 import { UsersModule } from '../users/users.module';
+import { WebsocketModule } from '../websocket/editing.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Movie]),AdminModule, GenresModule, DirectorsModule, UsersModule],
+  imports: [TypeOrmModule.forFeature([Movie]),AdminModule, GenresModule, DirectorsModule, UsersModule, WebsocketModule],
   controllers: [MoviesController],
   providers: [MovieService, AuthGuard],
   exports: [MovieService], 

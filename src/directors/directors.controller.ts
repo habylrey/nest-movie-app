@@ -3,7 +3,7 @@ import { DirectorsService } from './directors.service';
 import { Directors } from './directors.entity';
 import { CreateDirectorsDto } from './DTO/create-directors.dto';
 import { IdDto } from '../common/DTO/id.dto';
-import { AuthRequest } from '../interfaces/request.interface';
+import { AuthRequest } from '../common/interfaces/request.interface';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminService } from '../admins/admins.service';
 import { AuthGuard } from '../auth/auth.helper';

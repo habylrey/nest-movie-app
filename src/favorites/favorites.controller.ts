@@ -4,7 +4,7 @@ import { Favorites } from './favorites.entity';
 import { CreateFavoritesDto } from './DTO/create-favorites.dto';
 import { IdDto } from '../common/DTO/id.dto'; 
 import { AuthUser } from '../auth/auth.user';
-import { Person } from '../interfaces/request.interface';
+import { Person } from '../common/interfaces/request.interface';
 @Controller('favorites')
 export class FavoritesController {
   constructor(private favoritesService: FavoritesService) {}

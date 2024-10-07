@@ -7,7 +7,7 @@ import { IdDto } from '../common/DTO/id.dto';
 import { AdminService } from '../admins/admins.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AuthGuard } from '../auth/auth.helper';
-import { AuthRequest } from '../interfaces/request.interface';
+import { AuthRequest } from '../common/interfaces/request.interface';
 import { Request } from 'express';
 @Controller('episodes')
 export class EpisodesController {

@@ -4,12 +4,13 @@ import { Repository } from 'typeorm';
 import { User } from './users.entity';
 import { CreateUserDto } from './DTO/create-user.dto';
 import { IdDto } from '../common/DTO/id.dto'; 
+import { EditingService } from '../websocket/editing.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private usersRepository: Repository<User>
   ) {}
 
   findAll(): Promise<User[]> {
@@ -51,5 +52,9 @@ export class UsersService {
     if (result.affected === 0) {
       throw new NotFoundException(`User with ID ${idDto.id} not found`);
     }
+  }
+
+  async getDone() {
+    return { url: 'admin', message: 'Редактирование завершено успешно' };
   }
 }
