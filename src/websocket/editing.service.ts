@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { EditingGateway, Editor } from './editing.gateway';  
+import { EditingGateway } from './editing.gateway';  
+import { Editor } from '../common/interfaces/editor.interface';
 
 @Injectable()
 export class EditingService {
@@ -20,4 +21,5 @@ export class EditingService {
   getEditingState(): { isEditing: boolean; editor: Editor | null } {  
     return this.editingGateway.getEditingState();
   }
+
 }
