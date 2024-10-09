@@ -1,15 +1,20 @@
-FROM node:22
+# Используем базовый образ Node.js
+FROM node:20
 
-WORKDIR /usr/src/app
+# Устанавливаем рабочую директорию внутри контейнера
+WORKDIR /app
 
+# Копируем package.json и package-lock.json для установки зависимостей
 COPY package*.json ./
 
+# Устанавливаем зависимости
 RUN npm install
 
+# Копируем остальные файлы в контейнер
 COPY . .
 
-RUN npm run build
-
+# Указываем порт, который будет использовать приложение
 EXPOSE 3000
 
-CMD ["node", "dist/src/main.js"]
+# Команда для запуска приложения
+CMD ["npm", "start"]
