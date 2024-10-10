@@ -28,7 +28,9 @@ export class UsersModule implements NestModule {
     consumer
       .apply(EditingCheckMiddleware)
       .forRoutes(
-        { path: 'user/done', method: RequestMethod.GET }
+        { path: 'user/done', method: RequestMethod.GET },
+        { path: 'user/admin', method: RequestMethod.GET }
+
       );
   }
 }

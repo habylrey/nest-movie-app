@@ -9,10 +9,11 @@ import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
 import { UsersModule } from '../users/users.module';
 import { WebsocketModule } from '../websocket/editing.module';
+import { RedisService } from '../redis/redis.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Movie]),AdminModule, GenresModule, DirectorsModule, UsersModule, WebsocketModule],
   controllers: [MoviesController],
-  providers: [MovieService, AuthGuard],
+  providers: [MovieService, AuthGuard, RedisService],
   exports: [MovieService], 
 })
 export class MoviesModule {}

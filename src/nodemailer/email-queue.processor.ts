@@ -10,5 +10,10 @@ export class EmailQueueProcessor {
   async handleSendPasswordChangedEmail(job: Job<{ email: string }>) {
     const { email } = job.data;
     await this.emailService.sendPasswordChangedEmail(email);
-  } 
+  }
+  @Process('sendRoomIsFreeEmail')
+  async handleSendRoomIsFree(job:Job<{email: string, element: string}>) {
+    const {email, element} = job.data 
+    await this.emailService.sendRoomIsFree(email, element)
+  }
 }
