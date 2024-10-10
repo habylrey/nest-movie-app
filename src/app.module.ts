@@ -22,7 +22,7 @@ import { EmailModule } from './nodemailer/email.module';
     TypeOrmModule.forRoot(
       {
       type: 'postgres',
-      host: 'localhost',
+      host: process.env.DB_HOST,
       port: 5432,
       username: process.env.USER,
       password: process.env.PASSWORD,

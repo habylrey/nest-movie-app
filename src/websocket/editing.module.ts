@@ -4,6 +4,6 @@ import { EditingGateway } from './editing.gateway';
 
 @Module({
   providers: [EditingService, EditingGateway],
-  exports: [EditingService], 
+  exports: [EditingService],
 })
 export class WebsocketModule {}

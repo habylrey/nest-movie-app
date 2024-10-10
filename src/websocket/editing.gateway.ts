@@ -1,28 +1,33 @@
-import { WebSocketGateway, WebSocketServer, SubscribeMessage } from '@nestjs/websockets';
+import { WebSocketGateway, WebSocketServer, SubscribeMessage, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
+export interface Editor {
+  adminId: number;
+  contact: string;
+}
+
 @WebSocketGateway()
-export class EditingGateway {
+export class EditingGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  editingState = {
-    isEditing: false,
-    editor: null as { adminId: number; contact: string } | null,
-  };
+  public editingState = { isEditing: false, editor: null as Editor | null };
+
+  handleConnection(client: Socket) {
+  }
+
+  handleDisconnect(client: Socket) {
+    if (this.editingState.isEditing && this.editingState.editor?.contact === client.id) {
+      this.stopEditing(this.editingState.editor.adminId);
+    }
+  }
 
   @SubscribeMessage('startEditing')
-  handleStartEditing(client: Socket, payload: { adminId: number; contact: string }): void {
-    if (!this.editingState.isEditing) {
-      this.editingState.isEditing = true;
-      this.editingState.editor = payload;
-      this.server.emit('editingStarted', this.editingState);
-      
-      setTimeout(() => {
-        if (this.editingState.isEditing && this.editingState.editor?.adminId === payload.adminId) {
-          this.handleStopEditing(client, payload.adminId);
-        }
-      }, 30000);
+  handleStartEditing(client: Socket, payload: Editor): void {
+
+    if (this.canEdit(payload.adminId)) {
+      this.startEditing(payload);
+      this.scheduleAutoStop(payload.adminId, client);
     } else {
       client.emit('editingBlocked', this.editingState);
     }
@@ -30,10 +35,39 @@ export class EditingGateway {
 
   @SubscribeMessage('stopEditing')
   handleStopEditing(client: Socket, adminId: number): void {
-    if (this.editingState.isEditing && this.editingState.editor?.adminId === adminId) {
-      this.editingState.isEditing = false;
-      this.editingState.editor = null;
+    if (this.stopEditing(adminId)) {
       this.server.emit('editingStopped');
+    } else {
+      client.emit('stopEditingError', { message: 'Unable to stop editing' });
     }
+  }
+
+  public canEdit(adminId: number): boolean {
+    return !this.editingState.isEditing || this.editingState.editor?.adminId === adminId;
+  }
+
+  public startEditing(editor: Editor): void {
+    this.editingState = { isEditing: true, editor };
+    this.server.emit('editingStarted', this.editingState);
+  }
+
+  public scheduleAutoStop(adminId: number, client: Socket): void {
+    setTimeout(() => {
+      if (this.editingState.isEditing) {
+        this.stopEditing(adminId);
+      }
+    }, 30000);
+  }
+
+  public stopEditing(adminId: number): boolean {
+    if (this.editingState.isEditing) {
+      this.editingState = { isEditing: false, editor: null };
+      return true;
+    }
+    return false;
+  }
+
+  public getEditingState(): { isEditing: boolean; editor: Editor | null } {
+    return this.editingState;
   }
 }
