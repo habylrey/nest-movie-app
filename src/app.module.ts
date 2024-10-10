@@ -13,6 +13,9 @@ import { AdminModule } from './admins/admins.module';
 import { AuthModule } from './auth/auth.module';
 import { BullModule } from '@nestjs/bull';
 import { EmailModule } from './nodemailer/email.module';
+import { EditingGateway } from './websocket/editing.gateway';
+import { EditingService } from './websocket/editing.service';
+import { RedisService } from './redis/redis.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -41,6 +44,6 @@ import { EmailModule } from './nodemailer/email.module';
     GenresModule, FavoritesModule, EpisodesModule, DirectorsModule, 
     AdminModule, AuthModule, EmailModule
   ],
-  providers: []
+  providers: [RedisService, EditingGateway, EditingService]
 })
 export class AppModule {}

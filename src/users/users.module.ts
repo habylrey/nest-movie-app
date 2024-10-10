@@ -10,6 +10,7 @@ import { WebsocketModule } from '../websocket/editing.module';
 import { EditingService } from '../websocket/editing.service';
 import { EditingGateway } from '../websocket/editing.gateway';
 import { EditingCheckMiddleware } from '../websocket/state.middleware';
+import { RedisService } from '../redis/redis.service';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { EditingCheckMiddleware } from '../websocket/state.middleware';
     WebsocketModule
   ],
   controllers: [UsersController],
-  providers: [UsersService, AuthGuard, EditingService, EditingGateway],
+  providers: [UsersService, AuthGuard, EditingService, EditingGateway, RedisService],
   exports: [UsersService],
 })
 export class UsersModule implements NestModule {
@@ -27,7 +28,6 @@ export class UsersModule implements NestModule {
     consumer
       .apply(EditingCheckMiddleware)
       .forRoutes(
-        { path: 'user/admin', method: RequestMethod.GET },
         { path: 'user/done', method: RequestMethod.GET }
       );
   }

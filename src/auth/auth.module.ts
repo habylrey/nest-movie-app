@@ -11,6 +11,7 @@ import { AdminModule } from '../admins/admins.module';
 import { EditingService } from '../websocket/editing.service';
 import { WebsocketModule } from '../websocket/editing.module';
 import { EditingGateway } from '../websocket/editing.gateway';
+import { RedisService } from '../redis/redis.service';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { EditingGateway } from '../websocket/editing.gateway';
       signOptions: { expiresIn: '1h' },
     }), EmailModule, AdminModule, WebsocketModule
   ],
-  providers: [AuthService, JwtStrategy, EditingService, EditingGateway],
+  providers: [AuthService, JwtStrategy, EditingService, EditingGateway, RedisService],
   controllers: [AuthController],
   exports: [AuthService],
 })

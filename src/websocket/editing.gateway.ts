@@ -1,6 +1,6 @@
 import { WebSocketGateway, WebSocketServer, SubscribeMessage, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-
+import { RedisService } from '../redis/redis.service'; 
 export interface Editor {
   adminId: number;
   contact: string;
@@ -11,8 +11,18 @@ export class EditingGateway implements OnGatewayConnection, OnGatewayDisconnect 
   @WebSocketServer()
   server: Server;
 
-  public editingState = { isEditing: false, editor: null as Editor | null };
+  public editingState = { isEditing: false, editor: null };
 
+  constructor(private readonly redisService: RedisService) {
+    this.loadEditingState();
+  }
+
+  async loadEditingState() {
+    const state = await this.redisService.getEditingState();
+    if (state) {
+      this.editingState = state;
+    }
+  }
   handleConnection(client: Socket) {
   }
 

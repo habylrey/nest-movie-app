@@ -27,10 +27,9 @@ export class UsersController {
   @Get('done')
   @UseGuards(JwtAuthGuard, AuthGuard)
   async getDone(@AuthUser() person: Person) {
-    this.editingService.stopEditing(person.id);
+    await this.editingService.stopEditing(person.id); 
     return this.usersService.getDone();
   }
-
   @Get()
   @UseGuards(JwtAuthGuard)
   findOne(@AuthUser() person: Person): Promise<User> {
