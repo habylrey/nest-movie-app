@@ -8,9 +8,10 @@ import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
 import { UsersModule } from '../users/users.module';
 import { WebsocketModule } from '../websocket/editing.module';
+import { RedisService } from '../redis/redis.service';
 @Module( {
     imports: [TypeOrmModule.forFeature([Episodes]), SeriesModule, AdminModule, UsersModule, WebsocketModule],
     controllers: [EpisodesController],
-    providers: [EpisodesService, AuthGuard]
+    providers: [EpisodesService, AuthGuard, RedisService]
 } )
 export class EpisodesModule {}

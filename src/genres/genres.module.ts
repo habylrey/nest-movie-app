@@ -7,11 +7,12 @@ import { AdminModule } from '../admins/admins.module';
 import { AuthGuard } from '../auth/auth.helper';
 import { UsersModule } from '../users/users.module';
 import { WebsocketModule } from '../websocket/editing.module';
+import { RedisService } from '../redis/redis.service';
 
 @Module( {
     imports: [TypeOrmModule.forFeature([Genres]), AdminModule, UsersModule, WebsocketModule],
     controllers: [GenresController],
-    providers: [GenresService, AuthGuard],
+    providers: [GenresService, AuthGuard, RedisService],
     exports: [GenresService]
 } )
 export class GenresModule {}

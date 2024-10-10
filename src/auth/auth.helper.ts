@@ -3,12 +3,14 @@ import * as jwt from 'jsonwebtoken';
 import { UsersService } from '../users/users.service';
 import { AdminService } from '../admins/admins.service';
 import { EditingService } from '../websocket/editing.service';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private readonly adminService: AdminService,
-    private readonly editingService: EditingService,
+    public adminService: AdminService,
+    public editingService: EditingService,
+    public redisService: RedisService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -43,8 +45,9 @@ export class AuthGuard implements CanActivate {
   
       if (!isEditing.isEditing) {
         await this.editingService.startEditing(decoded.id, decoded.email);
-      }
-  
+        this.redisService.setSession(new Date().getTime().toString(), decoded.email)
+      } 
+      this.redisService.setSession(new Date().getTime().toString(), decoded.email)
       return true;
     } catch (err) {
       console.error('Token validation error:', err);
