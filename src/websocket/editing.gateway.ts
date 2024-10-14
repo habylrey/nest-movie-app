@@ -13,7 +13,7 @@ export class EditingGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   public editingState = { isEditing: false, editor: null };
 
-  constructor(private readonly redisService: RedisService) {
+  constructor( readonly redisService: RedisService) {
     this.loadEditingState();
   }
 
@@ -34,7 +34,7 @@ export class EditingGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   @SubscribeMessage('startEditing')
   handleStartEditing(client: Socket, payload: Editor): void {
-
+    this.server.emit('startEditing')
     if (this.canEdit(payload.adminId)) {
       this.startEditing(payload);
       this.scheduleAutoStop(payload.adminId, client);
@@ -50,6 +50,10 @@ export class EditingGateway implements OnGatewayConnection, OnGatewayDisconnect 
     } else {
       client.emit('stopEditingError', { message: 'Unable to stop editing' });
     }
+  }
+  @SubscribeMessage('getEditingState')
+  handleGetEditingState(client: Socket): void {
+    client.emit('currentState', this.getEditingState());
   }
 
   public canEdit(adminId: number): boolean {
