@@ -26,4 +26,14 @@ export class EmailService {
       Your password has been changed successfully.`,
     });
   }
+  async sendRoomIsFree(email: string, element: string): Promise<void> {
+    await this.transporter.sendMail({
+      from: '"Movies by habylrey👻" <from@example.com>',
+      to: email,
+      subject: 'Комната освободилась',
+      text: `Dear user, 
+      Вы хотели начать редактирование элемента ${element}. Предыдущий администратор закончил
+      редактирование, вы можете приступать.`,
+    });
+  }
 }

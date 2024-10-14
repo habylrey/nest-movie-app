@@ -24,4 +24,4 @@ export class AuthController {
     this.emailService.sendPasswordChangedEmail(email)
     return this.usersService.updatePassword(email, newPassword);
   }
-}
+}  
