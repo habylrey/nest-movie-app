@@ -11,8 +11,6 @@ import { EditingService } from '../websocket/editing.service';
 import { EditingGateway } from '../websocket/editing.gateway';
 import { EditingCheckMiddleware } from '../websocket/state.middleware';
 import { RedisService } from '../redis/redis.service';
-import { MinioService } from '../minio/minio.service';
-import { AppModule } from '../app.module';
 
 @Module({
   imports: [
@@ -22,7 +20,7 @@ import { AppModule } from '../app.module';
     WebsocketModule
   ],
   controllers: [UsersController],
-  providers: [UsersService, AuthGuard, EditingService, EditingGateway, RedisService, MinioService],
+  providers: [UsersService, AuthGuard, EditingService, EditingGateway, RedisService],
   exports: [UsersService],
 })
 export class UsersModule implements NestModule {

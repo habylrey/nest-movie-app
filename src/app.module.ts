@@ -16,7 +16,7 @@ import { EmailModule } from './nodemailer/email.module';
 import { EditingGateway } from './websocket/editing.gateway';
 import { EditingService } from './websocket/editing.service';
 import { RedisService } from './redis/redis.service';
-import { MinioService } from './minio/minio.service';
+import { UploadModule } from './minio/minio.module';
 
 @Module({
   imports: [
@@ -44,8 +44,8 @@ import { MinioService } from './minio/minio.service';
       },
     }),UsersModule, MoviesModule, SeriesModule, GradesModule, 
     GenresModule, FavoritesModule, EpisodesModule, DirectorsModule, 
-    AdminModule, AuthModule, EmailModule
+    AdminModule, AuthModule, EmailModule, UploadModule
   ],
-  providers: [RedisService, EditingGateway, EditingService, MinioService]
+  providers: [RedisService, EditingGateway, EditingService]
 })
 export class AppModule {}
