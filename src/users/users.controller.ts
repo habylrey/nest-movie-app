@@ -45,13 +45,5 @@ export class UsersController {
   remove(@AuthUser() person: Person): Promise<void> {
     return this.usersService.remove(person);
   }
-  @Get('download-all')
-  async downloadAll(@Res() res: Response) {
-    const outputDir = './downloads'; 
-    try {
-      await this.usersService.downloadAllUserFiles(outputDir);
-    } catch (error) {
-      console.error('Error downloading files:', error);
-    }
-}
+  
 }

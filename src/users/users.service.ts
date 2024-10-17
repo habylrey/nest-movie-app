@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { User } from './users.entity';
 import { CreateUserDto } from './DTO/create-user.dto';
 import { IdDto } from '../common/DTO/id.dto'; 
-import { MinioService } from '../minio/minio.service';
 import * as fs from 'fs';
 import * as fsPromises from 'fs/promises';
 @Injectable()
@@ -12,7 +11,6 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    private minioService: MinioService,
     
   ) {}
 
@@ -60,11 +58,5 @@ export class UsersService {
 
   async getDone() {
     return { url: 'admin', message: 'Редактирование завершено успешно' };
-  }
-  async downloadAllUserFiles(outputDir: string): Promise<void> {
-    const bucketName = 'my-bucket';
-    const prefix = 'nest-movie-app/'; 
-    await fsPromises.mkdir(outputDir, { recursive: true });
-    await this.minioService.downloadAllFiles(bucketName, outputDir, prefix);
   }
 }
