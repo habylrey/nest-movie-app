@@ -11,6 +11,8 @@ import { EditingService } from '../websocket/editing.service';
 import { EditingGateway } from '../websocket/editing.gateway';
 import { EditingCheckMiddleware } from '../websocket/state.middleware';
 import { RedisService } from '../redis/redis.service';
+import { MinioService } from '../minio/minio.service';
+import { AppModule } from '../app.module';
 
 @Module({
   imports: [
@@ -20,12 +22,12 @@ import { RedisService } from '../redis/redis.service';
     WebsocketModule
   ],
   controllers: [UsersController],
-  providers: [UsersService, AuthGuard, EditingService, EditingGateway, RedisService],
+  providers: [UsersService, AuthGuard, EditingService, EditingGateway, RedisService, MinioService],
   exports: [UsersService],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
+    consumer 
       .apply(EditingCheckMiddleware)
       .forRoutes(
         { path: 'user/done', method: RequestMethod.GET },

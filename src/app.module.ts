@@ -16,6 +16,8 @@ import { EmailModule } from './nodemailer/email.module';
 import { EditingGateway } from './websocket/editing.gateway';
 import { EditingService } from './websocket/editing.service';
 import { RedisService } from './redis/redis.service';
+import { MinioService } from './minio/minio.service';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -44,6 +46,6 @@ import { RedisService } from './redis/redis.service';
     GenresModule, FavoritesModule, EpisodesModule, DirectorsModule, 
     AdminModule, AuthModule, EmailModule
   ],
-  providers: [RedisService, EditingGateway, EditingService]
+  providers: [RedisService, EditingGateway, EditingService, MinioService]
 })
 export class AppModule {}

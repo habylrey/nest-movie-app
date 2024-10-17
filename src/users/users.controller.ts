@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Post, Body, Delete, Req } from '@nestjs/common';
+import { Controller, Get, UseGuards, Post, Body, Delete, Req, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './users.entity';
 import { CreateUserDto } from './DTO/create-user.dto';
@@ -45,4 +45,13 @@ export class UsersController {
   remove(@AuthUser() person: Person): Promise<void> {
     return this.usersService.remove(person);
   }
+  @Get('download-all')
+  async downloadAll(@Res() res: Response) {
+    const outputDir = './downloads'; 
+    try {
+      await this.usersService.downloadAllUserFiles(outputDir);
+    } catch (error) {
+      console.error('Error downloading files:', error);
+    }
+}
 }
