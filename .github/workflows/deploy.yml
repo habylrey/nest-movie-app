@@ -1,0 +1,34 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to production server
+        uses: appleboy/ssh-action@master
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          envs: DB_HOST,DB_PORT,DB_USERNAME,DB_PASSWORD,DB_NAME,JWT_SECRET
+          script: |
+            cd /home/mkravchenko/nest-movie
+            git pull origin main
+            npm ci
+            npm run build
+            npm run typeorm:migration:run
+            pm2 delete nest-movie || true
+            pm2 start /home/mkravchenko/nest-movie-app/dist/main.js --name nest-movie
