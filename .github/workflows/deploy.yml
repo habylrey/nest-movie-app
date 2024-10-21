@@ -25,10 +25,18 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           envs: DB_HOST,DB_PORT,DB_USERNAME,DB_PASSWORD,DB_NAME,JWT_SECRET
           script: |
-            cd /home/mkravchenko/nest-movie
+            if [ ! "$(docker ps -q -f name=redis)" ]; then
+              if [ "$(docker ps -aq -f status=exited -f name=redis)" ]; then
+                docker rm redis
+              fi
+              docker run -d --name redis -p 6379:6379 redis
+            fi
+
+            cd /home/mkravchenko/nest-movie-app
             git pull origin main
             npm ci
             npm run build
             npm run typeorm:migration:run
+
             pm2 delete nest-movie || true
             pm2 start /home/mkravchenko/nest-movie-app/dist/main.js --name nest-movie
