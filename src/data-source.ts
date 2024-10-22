@@ -4,9 +4,9 @@ const AppDataSource = new DataSource({
   type: "postgres",
   host: process.env.DB_HOST,
   port: 5432,
-  username: 'postgres',
-  password: 'Habbler2004',
-  database: 'movie-app',
+  username: process.env.USER, 
+  password: process.env.PASSWORD, 
+  database: process.env.DATABASE, 
   synchronize: true,
   logging: false,
   entities: ["src/*/**/*.entity.ts"],
@@ -14,4 +14,4 @@ const AppDataSource = new DataSource({
   subscribers: [],
 });
 
-export default AppDataSource; 
+export default AppDataSource;
