@@ -9,16 +9,15 @@ import { fileFactory } from './files.factory';
 import { episodeFactory } from './episodes.factory';
 import { directorFactory } from './directors.factory';
 import { adminFactory } from './admins.factory';
-import { ConfigModule } from '@nestjs/config';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
   port: 5432,
-  username: 'postgres',
-  password: "Habbler2004",
-  database: "movie-app",
-  entities: ["src/*/**/*.entity.ts"],
+  username: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  entities: ["src/*/**/*.entity.ts"], 
   synchronize: false,
   logging: true,
   migrations: ["src/migrations/*.ts"],

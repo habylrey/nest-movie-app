@@ -4,4 +4,4 @@ import { UploadController } from './minio.controller';
 @Module({
   controllers: [UploadController],
 })
-export class UploadModule {}
+export class UploadModule {} 

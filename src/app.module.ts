@@ -24,28 +24,36 @@ import { UploadModule } from './minio/minio.module';
       isGlobal: true, 
       envFilePath: ['.env'],
     }),
-    TypeOrmModule.forRoot(
-      {
+    TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
+      host: process.env.DB_HOST, 
       port: 5432,
-      username: process.env.USER,
-      password: process.env.PASSWORD,
+      username: process.env.USER, 
+      password: process.env.PASSWORD, 
       database: process.env.DATABASE,
       logging: true,
       synchronize: false, 
-      autoLoadEntities: true
-    }
-    ),
+      autoLoadEntities: true,
+    }),
     BullModule.forRoot({
       redis: {
         host: process.env.REDIS_HOST,
         port: +process.env.REDIS_PORT,
       },
-    }),UsersModule, MoviesModule, SeriesModule, GradesModule, 
-    GenresModule, FavoritesModule, EpisodesModule, DirectorsModule, 
-    AdminModule, AuthModule, EmailModule, UploadModule
+    }),
+    UsersModule,
+    MoviesModule,
+    SeriesModule,
+    GradesModule, 
+    GenresModule, 
+    FavoritesModule, 
+    EpisodesModule, 
+    DirectorsModule, 
+    AdminModule, 
+    AuthModule, 
+    EmailModule, 
+    UploadModule,
   ],
-  providers: [RedisService, EditingGateway, EditingService]
+  providers: [RedisService, EditingGateway, EditingService],
 })
 export class AppModule {}

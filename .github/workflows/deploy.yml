@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Deploy to production server
         uses: appleboy/ssh-action@master
         env:
@@ -23,7 +26,6 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          envs: DB_HOST,DB_PORT,DB_USERNAME,DB_PASSWORD,DB_NAME,JWT_SECRET
           script: |
             if [ ! "$(docker ps -q -f name=redis)" ]; then
               if [ "$(docker ps -aq -f status=exited -f name=redis)" ]; then
